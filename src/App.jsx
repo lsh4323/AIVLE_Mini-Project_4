@@ -103,8 +103,6 @@ function App() {
       alert("책 정보를 불러오지 못했어요");
     }
   };
-  // 책 수정 함수
-  const handleUpdateBook = async (id, updatedBook) => {};
 
   if (loading)
     return (
@@ -224,7 +222,10 @@ function App() {
     <Routes>
       <Route path="/" element={<HomeScreen />} />
       <Route path="/infobook" element={<BookInfoScreen />} />
-      <Route path="/addbook" element={<BookAddScreen />} />
+      <Route
+        path="/addbook"
+        element={<BookAddScreen onAddBook={handleAddBook} />}
+      />
     </Routes>
   );
 }
