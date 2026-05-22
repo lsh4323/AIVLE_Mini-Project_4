@@ -35,46 +35,60 @@ function App() {
 
   };
 
-  // OpenAI Image API 주소
-  const OPENAI_IMAGE_API_URL = 'https://api.openai.com/v1/images/generations';
+  // AI 이미지 생성 함수
+  const handleGenerateImage = async () => {
+    // API 키가 입력되지 않은 경우
+    if (!userApiKey) {
+      alert('API 키를 입력해주세요');
+      return;
+    }
 
-  // 책 이미지 생성 프롬프트
-  const prompt = `
-  매우 상세한 책 표지 이미지를 생성해주세요.
+    try {
+      // OpenAI Image API 주소
+      const OPENAI_IMAGE_API_URL = 'https://api.openai.com/v1/images/generations';
 
-  [텍스트 지침]
-  표지에는 아래의 요소들이 포함되어야 합니다.
-  - 제목: "${books.title}" (책 분위기에 맞는 타이포그래피를 사용해서 눈에 띄게 배치할 것)
-  - 저자명: "${books.author}" (제목과 조화를 이루도록 적절한 위치에 배치할 것)
-  
-  [시각적 지침]
-  - 다음 줄거리와 핵심 내용을 바탕으로 표지 일러스트를 생성해주세요: "${books.content}"
+      // 책 이미지 생성 프롬프트
+      const prompt = `
+      매우 상세한 책 표지 이미지를 생성해주세요.
 
-  [스타일 및 분위기]
-  - 스타일: 책의 장르와 분위기에 맞는 스타일로 표지를 디자인해주세요. 예를 들어, 미스테리 소설이라면 어두운 색조와 음영을 사용하고,
-    로맨스 소설이라면 부드러운 색감과 낭만적인 요소를 포함해주세요.
-  - 분위기: 배경과 일러스트는 책의 전체적인 분위기와 어울려야하며, 제목과 저자명이 배경에 묻히지 않도록 주의해주세요.
-  - 퀄리티: "${selectedQuality}" (선택한 퀄리티에 맞는 디테일과 해상도로 생성할 것)
-  `
+      [텍스트 지침]
+      표지에는 아래의 요소들이 포함되어야 합니다.
+      - 제목: "${books.title}" (책 분위기에 맞는 타이포그래피를 사용해서 눈에 띄게 배치할 것)
+      - 저자명: "${books.author}" (제목과 조화를 이루도록 적절한 위치에 배치할 것)
+      
+      [시각적 지침]
+      - 다음 줄거리와 핵심 내용을 바탕으로 표지 일러스트를 생성해주세요: "${books.content}"
 
-  // OpenAI 이미지 생성 요청 함수
-  const CreateImage = await fetch(OPENAI_IMAGE_API_URL, { 
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${userApiKey}`
-    },
-    body: JSON.stringify({
-      model: 'gpt-image-2',
-      prompt,
-      n: 1,
-      size: '1024x1536',
-      quality: selectedQuality,
-      output_format: 'png'
-    })
-  });
+      [스타일 및 분위기]
+      - 스타일: 책의 장르와 분위기에 맞는 스타일로 표지를 디자인해주세요. 예를 들어, 미스테리 소설이라면 어두운 색조와 음영을 사용하고,
+        로맨스 소설이라면 부드러운 색감과 낭만적인 요소를 포함해주세요.
+      - 분위기: 배경과 일러스트는 책의 전체적인 분위기와 어울려야하며, 제목과 저자명이 배경에 묻히지 않도록 주의해주세요.
+      - 퀄리티: "${selectedQuality}" (선택한 퀄리티에 맞는 디테일과 해상도로 생성할 것)
+      `
 
-  if (!CreateImage.ok) throw new Error('OpenAI 요청 실패');
+      // OpenAI 이미지 생성 요청 함수
+      const CreateImage = await fetch(OPENAI_IMAGE_API_URL, { 
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${userApiKey}`
+        },
+        body: JSON.stringify({
+          model: 'gpt-image-2',
+          prompt,
+          n: 1,
+          size: '1024x1536',
+          quality: selectedQuality,
+          output_format: 'png'
+        })
+      });
+
+      if (!CreateImage.ok) throw new Error('OpenAI 요청 실패');
+    } catch (err) {
+      console.error(err);
+      alert('err.message');
+    }
+  };
   
   if (loading) return <><p>불러오는 중...</p></>;
   
