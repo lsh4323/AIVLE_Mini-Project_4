@@ -1,10 +1,16 @@
 import { useState, useEffect } from 'react';
 import BookForm from './components/BookForm'; 
+// BookDetail.jsx 불러와야 함.
+import BookDetail from './components/BookDetail';
 
 function App() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // 수정 기능: 선택된 도서의 ID 상태 추가
+  // 어떤 책이 클릭되어 상세 화면으로 넘어갔는지를 기억하는 리액트의 상태
+  const [selectedBookId, setSelectedBookId] = useState(null);
 
   // json-server 데이터 가져오기
   useEffect(() => {
@@ -45,7 +51,17 @@ function App() {
   };
   
   const handleDeleteBook = async (id) => { };
-  const handleUpdateBook = async (id, updatedBook) => { };
+// 수정: [수정] 버튼클릭시기존정보자동불러오기및수정후저장가능 이 되도록...
+  const handleUpdateBook = (updatedBook) => {
+    // 5/21 수업 참고하여 map이용
+    // 수정된 id와 일치하는 객체만 교체함.
+    setBooks(books.map(b => b.id === updatedBook.id ? updatedBook : b));
+  };
+
+
+  // 클릭한 id와 같은 글 찾음
+  const currentBook = books.find(b => b.id === selectedBookId);  
+  
   
   if (loading) return <p>로딩 중...</p>;
   if (error) return <p>에러: {error}</p>;
@@ -53,7 +69,9 @@ function App() {
   // return문 추가, 테스트 후 컨트롤 k c 로 주석처리 하여 동기화 함.
   return (
     <>
-      {/* <div>
+      <p>Hello</p>
+
+      <div>
         <h1>도서관리시스템</h1>
         
         <BookForm onAddBook={handleAddBook} /> 
@@ -61,16 +79,17 @@ function App() {
         <div>
           <h3>도서 목록 ({books.length}권)</h3>
           {books.map(b => (
-            <div key={b.id} style={{ border: '1px solid #000', margin: '5px', padding: '5px' }}>
-              <h4>{b.title}</h4>
+            <div 
+              key={b.id} 
+              onClick={() => setSelectedBookId(b.id)}
+              style={{ border: '1px solid #000', margin: '5px', padding: '5px', cursor: 'pointer' }}
+            >
+              <h4>{b.title} (클릭 시 상세조회/수정)</h4>
               <p>저자: {b.author}</p>
-              <p>내용: {b.content}</p>
             </div>
           ))}
         </div>
-      </div> */}
-
-      <p>Hello</p>
+      </div>
     </>
   );
 }
