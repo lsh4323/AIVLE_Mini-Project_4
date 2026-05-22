@@ -1,4 +1,8 @@
 import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+import HomeScreen from "./screens/HomeScreen";
+import BookInfoScreen from "./screens/BookInfoScreen";
+import BookAddScreen from "./screens/BookAddScreen";
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -87,13 +91,14 @@ function App() {
   const handleGenerateImage = async () => {
     // API 키가 입력되지 않은 경우
     if (!userApiKey) {
-      alert('API 키를 입력해주세요');
+      alert("API 키를 입력해주세요");
       return;
     }
 
     try {
       // OpenAI Image API 주소
-      const OPENAI_IMAGE_API_URL = 'https://api.openai.com/v1/images/generations';
+      const OPENAI_IMAGE_API_URL =
+        "https://api.openai.com/v1/images/generations";
 
       // 책 이미지 생성 프롬프트
       const prompt = `
@@ -112,26 +117,26 @@ function App() {
         로맨스 소설이라면 부드러운 색감과 낭만적인 요소를 포함해주세요.
       - 분위기: 배경과 일러스트는 책의 전체적인 분위기와 어울려야하며, 제목과 저자명이 배경에 묻히지 않도록 주의해주세요.
       - 퀄리티: "${selectedQuality}" (선택한 퀄리티에 맞는 디테일과 해상도로 생성할 것)
-      `
+      `;
 
       // OpenAI 이미지 생성 요청 함수
-      const CreateImage = await fetch(OPENAI_IMAGE_API_URL, { 
-        method: 'POST',
+      const CreateImage = await fetch(OPENAI_IMAGE_API_URL, {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${userApiKey}`
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userApiKey}`,
         },
         body: JSON.stringify({
-          model: 'gpt-image-2',
+          model: "gpt-image-2",
           prompt,
           n: 1,
-          size: '1024x1536',
+          size: "1024x1536",
           quality: selectedQuality,
-          output_format: 'png'
-        })
+          output_format: "png",
+        }),
       });
 
-      if (!CreateImage.ok) throw new Error('OpenAI 요청 실패');
+      if (!CreateImage.ok) throw new Error("OpenAI 요청 실패");
 
       //   *********************************************************************
       // OpenAI 응답에서 base64 이미지 데이터 추출
@@ -142,43 +147,51 @@ function App() {
       const imageUrl = `data:image/png;base64,${b64Image}`;
 
       // json-server에 PATCH reqeust
-      const updateRes = await fetch(`http://localhost:3000/books/${selectedBook.id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json'
+      const updateRes = await fetch(
+        `http://localhost:3000/books/${selectedBook.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            coverImageUrl: imageUrl,
+            updatedAt: new Date().toISOString(),
+          }),
         },
-        body: JSON.stringify({ 
-          coverImageUrl: imageUrl ,
-          updatedAt: new Date().toISOString()
-        })
-      });
+      );
 
       // json-server 업데이트 성공 여부 확인
-      if (!updateRes.ok) throw new Error('책 정보 업데이트 실패');
+      if (!updateRes.ok) throw new Error("책 정보 업데이트 실패");
 
       const updatedBook = await updateRes.json();
 
       // React 상태 업데이트
-      setBooks((prevBooks) => prevBooks.map((book) => book.id === selectedBook.id ? updatedBook : book));
+      setBooks((prevBooks) =>
+        prevBooks.map((book) =>
+          book.id === selectedBook.id ? updatedBook : book,
+        ),
+      );
       setSelectedBook(updatedBook);
 
       // 성공 알림
-      alert('책 이미지가 성공적으로 생성되고 업데이트되었습니다!');
-
+      alert("책 이미지가 성공적으로 생성되고 업데이트되었습니다!");
     } catch (err) {
       console.error(err);
       alert(err.message);
     }
   };
-  
-  if (loading) return <><p>불러오는 중...</p></>;
-  
-  if (error) return <><p>에러: {error}</p></>;
+
+  // if (loading) return <><p>불러오는 중...</p></>;
+
+  // if (error) return <><p>에러: {error}</p></>;
 
   return (
-    <>
-      <h1>hellohihi</h1>
-    </>
+    <Routes>
+      <Route path="/" element={<HomeScreen />} />
+      <Route path="/infobook" element={<BookInfoScreen />} />
+      <Route path="/addbook" element={<BookAddScreen />} />
+    </Routes>
   );
 }
 
