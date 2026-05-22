@@ -133,7 +133,8 @@ function App() {
 
       if (!CreateImage.ok) throw new Error('OpenAI 요청 실패');
 
-
+      //   *********************************************************************
+      // OpenAI 응답에서 base64 이미지 데이터 추출
       const responseData = await CreateImage.json();
       const b64Image = responseData.data[0].b64_json;
 
@@ -146,8 +147,10 @@ function App() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ image: imageUrl }),
-        updatedAt: new Date().toISOString()
+        body: JSON.stringify({ 
+          coverImageUrl: imageUrl ,
+          updatedAt: new Date().toISOString()
+        })
       });
 
       // json-server 업데이트 성공 여부 확인
