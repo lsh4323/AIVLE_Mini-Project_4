@@ -104,8 +104,6 @@ function App() {
       alert("책 정보를 불러오지 못했어요");
     }
   };
-  // 책 수정 함수
-  const handleUpdateBook = async (id, updatedBook) => {};
 
   if (loading)
     return (
@@ -217,7 +215,7 @@ function App() {
   return (
     <>
       <p>Hello</p>
-      {/*
+      
       {currentBook ? (
         <BookDetail 
           book={currentBook} 
@@ -249,7 +247,7 @@ function App() {
             ))}
           </div>
         </div>
-      )}*/}
+      )}
     </>
   );
 }
