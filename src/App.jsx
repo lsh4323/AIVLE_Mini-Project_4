@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import BookForm from './components/BookForm'; // 수정1. 불러옴
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -20,9 +21,26 @@ function App() {
     loadBooks();
   }, []);
 
-  //책 추가 함수
+  // 수정2.책 추가 함수
   const handleAddBook = async (newBook) => {
-    //qwe
+    try {
+      const res = await fetch('http://localhost:3000/books', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newBook)
+      });
+
+      if (!res.ok) throw new Error('등록 실패');
+
+      const savedBook = await res.json();
+      
+      // 리액트 상태 업데이트 (화면에 실시간 추가)
+      setBooks([savedBook, ...books]);
+      alert('등록 완료!');
+    } catch (err) {
+      console.error(err);
+      alert('등록 중 에러가 발생했습니다.');
+    }
   };
   
   // 책 삭제 함수
