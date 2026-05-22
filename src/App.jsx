@@ -73,16 +73,22 @@ function App() {
 
       <div>
         <h1>도서관리시스템</h1>
-        
-        <BookForm onAddBook={handleAddBook} /> 
+
+        <BookForm onAddBook={handleAddBook} />
 
         <div>
           <h3>도서 목록 ({books.length}권)</h3>
-          {books.map(b => (
-            <div 
-              key={b.id} 
+          {books.map((b) => (
+            <div
+              key={b.id}
               onClick={() => setSelectedBookId(b.id)}
-              style={{ border: '1px solid #000', margin: '5px', padding: '5px', cursor: 'pointer' }}
+              style={{
+                border: '1px solid #000',
+                margin: '10px 0',
+                padding: '10px',
+                cursor: 'pointer',
+                background: '#f0f0f0',
+              }}
             >
               <h4>{b.title} (클릭 시 상세조회/수정)</h4>
               <p>저자: {b.author}</p>
