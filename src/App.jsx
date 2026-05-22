@@ -70,8 +70,7 @@ function App() {
   return (
     <>
       <p>Hello</p>
-
-      {/* 🌟 핵심: currentBook이 있으면 상세페이지를, 없으면 목록을 보여줌 */}
+      {/*
       {currentBook ? (
         <BookDetail 
           book={currentBook} 
@@ -103,7 +102,7 @@ function App() {
             ))}
           </div>
         </div>
-      )}
+      )}*/}
     </>
   );
 }
