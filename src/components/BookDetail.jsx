@@ -78,10 +78,10 @@ function BookDetail({ book, onUpdateBook, onBack }) {
           <h2>📖 {book.title}</h2>
           <p>저자: {book.author}</p>
           <p>내용: {book.content}</p>
-          <small>등록일: {book.createdAt}</small>
+          <small>등록일:{new Date(book.createdAt).toLocaleString()}</small>
           <br />
           {/*수정일 추가*/}
-          {book.updatedAt && <small>수정일: {book.updatedAt}</small>}
+          {book.updatedAt && <small>수정일:{new Date(book.updatedAt).toLocaleString()}</small>}
           <br />
           <button onClick={() => setIsEditing(true)}>수정하기</button>
         </div>
