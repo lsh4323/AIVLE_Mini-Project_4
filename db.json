@@ -1,13 +1,22 @@
 {
   "books": [
-    { 
-      "id": 1,
+    {
+      "id": "1",
       "title": "별빛 아래의 서점",
       "author": "홍길동",
       "content": "작은 마을 서점의 1년을 담은 에세이",
       "coverImageUrl": "",
       "createdAt": "2026-04-24T09:00:00.000Z",
       "updatedAt": "2026-04-24T09:00:00.000Z"
+    },
+    {
+      "title": "별빛 아래의 서점",
+      "author": "홍길동",
+      "content": "작은 마을 서점의 1년을 담은 에세이22test",
+      "coverImageUrl": "",
+      "createdAt": "2026-05-22T05:17:52.553Z",
+      "id": "_CrSNygIRGg"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
