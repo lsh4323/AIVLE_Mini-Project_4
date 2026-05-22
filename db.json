@@ -8,23 +8,6 @@
       "coverImageUrl": "",
       "createdAt": "2026-04-24T09:00:00.000Z",
       "updatedAt": "2026-05-22T06:24:30.526Z"
-    },
-    {
-      "title": "별빛 아래의 서점",
-      "author": "홍길동",
-      "content": "작은 마을 서점의 1년을 담은 에세이 우웅22test22222222222",
-      "coverImageUrl": "",
-      "createdAt": "2026-05-22T05:17:52.553Z",
-      "id": "_CrSNygIRGg",
-      "updatedAt": "2026-05-22T06:26:54.899Z"
-    },
-    {
-      "title": "xp",
-      "author": "테스트",
-      "content": "ㅌㅌ",
-      "coverImageUrl": "",
-      "createdAt": "2026-05-22T05:19:13.929Z",
-      "id": "qsgzmtin438"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
