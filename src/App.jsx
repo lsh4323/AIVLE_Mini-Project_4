@@ -50,26 +50,28 @@ function App() {
   if (loading) return <p>로딩 중...</p>;
   if (error) return <p>에러: {error}</p>;
 
-  // return문 추가
+  // return문 추가, 테스트 후 컨트롤 k c 로 주석처리 하여 동기화 함.
   return (
-    <div>
-      <h1>도서관리시스템</h1>
-      
-      {/* 등록 폼 컴포넌트 */}
-      <BookForm onAddBook={handleAddBook} /> 
+    <>
+      {/* <div>
+        <h1>도서관리시스템</h1>
+        
+        <BookForm onAddBook={handleAddBook} /> 
 
-      {/* 등록 테스트 확인용 목록 */}
-      <div>
-        <h3>도서 목록 ({books.length}권)</h3>
-        {books.map(b => (
-          <div key={b.id} style={{ border: '1px solid #000', margin: '5px', padding: '5px' }}>
-            <h4>{b.title}</h4>
-            <p>저자: {b.author}</p>
-            <p>내용: {b.content}</p>
-          </div>
-        ))}
-      </div>
-    </div>
+        <div>
+          <h3>도서 목록 ({books.length}권)</h3>
+          {books.map(b => (
+            <div key={b.id} style={{ border: '1px solid #000', margin: '5px', padding: '5px' }}>
+              <h4>{b.title}</h4>
+              <p>저자: {b.author}</p>
+              <p>내용: {b.content}</p>
+            </div>
+          ))}
+        </div>
+      </div> */}
+
+      <p>Hello</p>
+    </>
   );
 }
 
