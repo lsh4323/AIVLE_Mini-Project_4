@@ -134,7 +134,7 @@ function App() {
       if (!CreateImage.ok) throw new Error('OpenAI 요청 실패');
     } catch (err) {
       console.error(err);
-      alert('err.message');
+      alert(err.message);
     }
   };
   
