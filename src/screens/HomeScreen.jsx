@@ -1,17 +1,21 @@
 import { useNavigate } from 'react-router-dom';
+import BookList from '../components/BookList';
 
-function HomeScreen() {
+function HomeScreen({ books }) {
   const navigate = useNavigate();
 
   return (
     <>
-      <h1>홈 화면 </h1>
+      <h1>홈 화면</h1>
+
+      <BookList books={books} />
 
       <button onClick={() => navigate('/infobook')}>
         책 화면으로 이동
       </button>
+
       <button onClick={() => navigate('/addbook')}>
-        책 추가 화면  이동
+        책 추가 화면 이동
       </button>
     </>
   );

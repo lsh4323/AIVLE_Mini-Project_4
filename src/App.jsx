@@ -220,8 +220,25 @@ function App() {
   // return문 추가, 테스트 후 컨트롤 k c 로 주석처리 하여 동기화 함.
   return (
     <Routes>
-      <Route path="/" element={<HomeScreen />} />
-      <Route path="/infobook" element={<BookInfoScreen />} />
+      <Route
+        path="/"
+        element={
+          <HomeScreen
+            books={books}
+          />
+        }
+      />
+      <Route
+        path="/infobook/:id"
+        element={
+          <BookInfoScreen
+            books={books}
+            onDeleteBook={handleDeleteBook}
+            onUpdateBook={handleUpdateBook}
+            onMakeImg={handleMakeImg}
+          />
+        }
+      />
       <Route path="/addbook" element={<BookAddScreen />} />
       <Route
         path="/addbook"
