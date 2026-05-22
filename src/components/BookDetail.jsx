@@ -80,6 +80,9 @@ function BookDetail({ book, onUpdateBook, onBack }) {
           <p>내용: {book.content}</p>
           <small>등록일: {book.createdAt}</small>
           <br />
+          {/*수정일 추가*/}
+          {book.updatedAt && <small>수정일: {book.updatedAt}</small>}
+          <br />
           <button onClick={() => setIsEditing(true)}>수정하기</button>
         </div>
       )}
