@@ -132,6 +132,36 @@ function App() {
       });
 
       if (!CreateImage.ok) throw new Error('OpenAI 요청 실패');
+
+
+      const responseData = await CreateImage.json();
+      const b64Image = responseData.data[0].b64_json;
+
+      // b64 이미지를 Data url로 변환
+      const imageUrl = `data:image/png;base64,${b64Image}`;
+
+      // json-server에 PATCH reqeust
+      const updateRes = await fetch(`http://localhost:3000/books/${selectedBook.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ image: imageUrl }),
+        updatedAt: new Date().toISOString()
+      });
+
+      // json-server 업데이트 성공 여부 확인
+      if (!updateRes.ok) throw new Error('책 정보 업데이트 실패');
+
+      const updatedBook = await updateRes.json();
+
+      // React 상태 업데이트
+      setBooks((prevBooks) => prevBooks.map((book) => book.id === selectedBook.id ? updatedBook : book));
+      setSelectedBook(updatedBook);
+
+      // 성공 알림
+      alert('책 이미지가 성공적으로 생성되고 업데이트되었습니다!');
+
     } catch (err) {
       console.error(err);
       alert(err.message);
