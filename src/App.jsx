@@ -71,31 +71,39 @@ function App() {
     <>
       <p>Hello</p>
 
-      <div>
-        <h1>도서관리시스템</h1>
-
-        <BookForm onAddBook={handleAddBook} />
-
+      {/* 🌟 핵심: currentBook이 있으면 상세페이지를, 없으면 목록을 보여줌 */}
+      {currentBook ? (
+        <BookDetail 
+          book={currentBook} 
+          onUpdateBook={handleUpdateBook} 
+          onBack={() => setSelectedBookId(null)} 
+        />
+      ) : (
         <div>
-          <h3>도서 목록 ({books.length}권)</h3>
-          {books.map((b) => (
-            <div
-              key={b.id}
-              onClick={() => setSelectedBookId(b.id)}
-              style={{
-                border: '1px solid #000',
-                margin: '10px 0',
-                padding: '10px',
-                cursor: 'pointer',
-                background: '#f0f0f0',
-              }}
-            >
-              <h4>{b.title} (클릭 시 상세조회/수정)</h4>
-              <p>저자: {b.author}</p>
-            </div>
-          ))}
+          <h1>도서관리시스템</h1>
+          <BookForm onAddBook={handleAddBook} />
+
+          <div>
+            <h3>도서 목록 ({books.length}권)</h3>
+            {books.map((b) => (
+              <div
+                key={b.id}
+                onClick={() => setSelectedBookId(b.id)}
+                style={{
+                  border: '1px solid #000',
+                  margin: '10px 0',
+                  padding: '10px',
+                  cursor: 'pointer',
+                  background: '#f0f0f0',
+                }}
+              >
+                <h4>{b.title} (클릭 시 상세조회/수정)</h4>
+                <p>저자: {b.author}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
