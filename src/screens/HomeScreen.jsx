@@ -5,7 +5,7 @@ function HomeScreen() {
 
   return (
     <>
-      <h1>홈 화면</h1>
+      <h1>홈 화면 </h1>
 
       <button onClick={() => navigate('/infobook')}>
         책 화면으로 이동

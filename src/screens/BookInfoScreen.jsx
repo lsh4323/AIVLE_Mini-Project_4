@@ -5,7 +5,7 @@ function BookInfoScreen(book) {
     
     return (
         <>
-            <h1>책 정보 화면</h1>
+            <h1>책 정보 화면 </h1>
             <button onClick={() => navigate('/')}>
             홈 화면으로 이동
             </button>

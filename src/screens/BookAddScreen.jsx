@@ -5,7 +5,7 @@ function BookAddScreen(book) {
     
     return (
         <>
-            <h1>책 추가 화면</h1>
+            <h1>책 추가 화면 </h1>
             <button onClick={() => navigate('/')}>
                 홈 화면으로 이동
             </button>
