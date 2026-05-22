@@ -8,7 +8,7 @@ function App() {
   useEffect(() => {
     async function loadBooks() {
       try {
-        const res = await fetch('http://localhost:3000/posts');
+        const res = await fetch('http://localhost:3000/books');
         const data = await res.json();
         setBooks(data);
       } catch (err) {
