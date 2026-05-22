@@ -219,42 +219,15 @@ function App() {
 
   // return문 추가, 테스트 후 컨트롤 k c 로 주석처리 하여 동기화 함.
   return (
-    <>
-      <p>Hello</p>
-      
-      {currentBook ? (
-        <BookDetail 
-          book={currentBook} 
-          onUpdateBook={handleUpdateBook} 
-          onBack={() => setSelectedBookId(null)} 
-        />
-      ) : (
-        <div>
-          <h1>도서관리시스템</h1>
-          <BookForm onAddBook={handleAddBook} />
-
-          <div>
-            <h3>도서 목록 ({books.length}권)</h3>
-            {books.map((b) => (
-              <div
-                key={b.id}
-                onClick={() => setSelectedBookId(b.id)}
-                style={{
-                  border: '1px solid #000',
-                  margin: '10px 0',
-                  padding: '10px',
-                  cursor: 'pointer',
-                  background: '#f0f0f0',
-                }}
-              >
-                <h4>{b.title} (클릭 시 상세조회/수정)</h4>
-                <p>저자: {b.author}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </>
+    <Routes>
+      <Route path="/" element={<HomeScreen />} />
+      <Route path="/infobook" element={<BookInfoScreen />} />
+      <Route path="/addbook" element={<BookAddScreen />} />
+      <Route
+        path="/addbook"
+        element={<BookAddScreen onAddBook={handleAddBook} />}
+      />
+    </Routes>
   );
 }
 
