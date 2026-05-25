@@ -10,10 +10,11 @@ function BookInfoScreen({
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const book = books.find(book => book.id === Number(id));
+  const book = books.find(book => book.id == Number(id));
 
   const [isEditing, setIsEditing] = useState(false);
   const [changeContent, setChangeContent] = useState(book?.content ?? '');
+  console.log('changeContent : ', changeContent);
 
   if (!book) {
     return (
@@ -27,7 +28,12 @@ function BookInfoScreen({
   const handleSave = () => {
     const newUpdatedAt = new Date().toISOString();
 
-    onUpdateBook(book.id, {
+    onUpdateBook({
+      ...book,
+      content: changeContent,
+      updatedAt: newUpdatedAt,
+    });
+    console.log('updatedbook : ', {
       ...book,
       content: changeContent,
       updatedAt: newUpdatedAt,
