@@ -13,15 +13,16 @@ function BookItem({
     const navigate = useNavigate();
 
     return (
-        <li className="book-card">
-        <h3>{title}</h3>
-        <p>글쓴이: {author}</p>
-        <img src={coverImageUrl} alt={title} />
-        <p>입력일: {createdAt}</p>
-        <p>수정 날짜: {updatedAt}</p>
-        <button onClick={() => navigate(`/infobook/${id}`)}>
-            상세보기
-        </button>
+        <li
+            className="book-card"
+            onClick={() => navigate(`/infobook/${id}`)}
+            style={{ cursor: 'pointer' }}
+        >
+            <h3>{title}</h3>
+            <p>글쓴이: {author}</p>
+            <img src={coverImageUrl} alt={title} />
+            <p>입력일: {createdAt}</p>
+            <p>수정 날짜: {updatedAt}</p>
         </li>
     );
 }

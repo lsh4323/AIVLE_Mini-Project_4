@@ -58,7 +58,7 @@ function App() {
   const handleUpdateBook = (updatedBook) => {
     // 5/21 수업 참고하여 map이용
     // 수정된 id와 일치하는 객체만 교체함.
-    setBooks(books.map((b) => (b.id === updatedBook.id ? updatedBook : b)));
+    setBooks(books.map((b) => (b.id == updatedBook.id ? updatedBook : b)));
   };
 
   // 클릭한 id와 같은 글 찾음
@@ -235,7 +235,7 @@ function App() {
             books={books}
             onDeleteBook={handleDeleteBook}
             onUpdateBook={handleUpdateBook}
-            onMakeImg={handleMakeImg}
+            onMakeImg={handleGenerateImage}
           />
         }
       />
