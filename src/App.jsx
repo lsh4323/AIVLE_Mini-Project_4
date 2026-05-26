@@ -6,7 +6,6 @@ import BookAddScreen from "./screens/BookAddScreen";
 import BookForm from "./components/BookForm";
 // BookDetail.jsx 불러와야 함.
 import BookDetail from "./components/BookDetail";
-import Header from "./components/Header";
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -56,23 +55,10 @@ function App() {
     }
   };
 
-  const handleUpdateBook = async (updatedBook) => {
-    try {
-      // json-server(3000포트)의 해당 ID 데이터 수정요청
-      const res = await fetch(`http://localhost:3000/books/${updatedBook.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedBook)
-      });
-
-      if (!res.ok) throw new Error('수정 실패');
-
-      setBooks(books.map((b) => (b.id == updatedBook.id ? updatedBook : b)));
-      alert('수정 완료!');
-    } catch (err) {
-      console.error(err);
-      alert('수정 중 에러가 발생했습니다.');
-    }
+  const handleUpdateBook = (updatedBook) => {
+    // 5/21 수업 참고하여 map이용
+    // 수정된 id와 일치하는 객체만 교체함.
+    setBooks(books.map((b) => (b.id == updatedBook.id ? updatedBook : b)));
   };
 
   // 클릭한 id와 같은 글 찾음
@@ -151,11 +137,11 @@ function App() {
 
       [텍스트 지침]
       표지에는 아래의 요소들이 포함되어야 합니다.
-      - 제목: "${currentBook.title}" (책 분위기에 맞는 타이포그래피를 사용해서 눈에 띄게 배치할 것)
-      - 저자명: "${currentBook.author}" (제목과 조화를 이루도록 적절한 위치에 배치할 것)
+      - 제목: "${selectedBook.title}" (책 분위기에 맞는 타이포그래피를 사용해서 눈에 띄게 배치할 것)
+      - 저자명: "${selectedBook.author}" (제목과 조화를 이루도록 적절한 위치에 배치할 것)
       
       [시각적 지침]
-      - 다음 줄거리와 핵심 내용을 바탕으로 표지 일러스트를 생성해주세요: "${currentBook.content}"
+      - 다음 줄거리와 핵심 내용을 바탕으로 표지 일러스트를 생성해주세요: "${selectedBook.content}"
 
       [스타일 및 분위기]
       - 스타일: 책의 장르와 분위기에 맞는 스타일로 표지를 디자인해주세요. 예를 들어, 미스테리 소설이라면 어두운 색조와 음영을 사용하고,
@@ -233,8 +219,6 @@ function App() {
 
   // return문 추가, 테스트 후 컨트롤 k c 로 주석처리 하여 동기화 함.
   return (
-    <>
-    <Header/>
     <Routes>
       <Route
         path="/"
@@ -260,8 +244,6 @@ function App() {
         element={<BookAddScreen onAddBook={handleAddBook} />}
       />
     </Routes>
-    </>
-    
   );
 }
 

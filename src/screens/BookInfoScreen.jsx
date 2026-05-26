@@ -101,6 +101,7 @@ function BookInfoScreen({
       {/* AI 이미지 생성 섹션 */}
       <div className="ai-image-section">
         <h3>AI 이미지 생성</h3>
+        <h4>API 키 입력</h4>
         <div>
           <input
             type="password"
@@ -123,7 +124,7 @@ function BookInfoScreen({
         </div>
 
         <div>
-          <label>quality</label>
+          <label>퀄리티</label>
           <select
             value={selectedQuality}
             onChange={(e) => setSelectedQuality(e.target.value)}
