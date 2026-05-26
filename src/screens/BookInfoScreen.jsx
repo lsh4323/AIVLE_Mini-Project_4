@@ -94,12 +94,12 @@ function BookInfoScreen({
         <BackToListButton/>
         <div className="del-update-dutton">
          <button 
-          type = "submit"
+          type = "delete"
           onClick={handleDelete}>
             삭제
         </button>
         <button 
-          type = "delete"
+          type = "submit"
           onClick={() => navigate(`/editbook/${id}`)}>
             수정
         </button>
