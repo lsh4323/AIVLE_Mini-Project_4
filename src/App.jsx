@@ -6,6 +6,7 @@ import BookAddScreen from "./screens/BookAddScreen";
 import BookForm from "./components/BookForm";
 // BookDetail.jsx 불러와야 함.
 import BookDetail from "./components/BookDetail";
+import Header from "./components/Header";
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -55,10 +56,23 @@ function App() {
     }
   };
 
-  const handleUpdateBook = (updatedBook) => {
-    // 5/21 수업 참고하여 map이용
-    // 수정된 id와 일치하는 객체만 교체함.
-    setBooks(books.map((b) => (b.id == updatedBook.id ? updatedBook : b)));
+  const handleUpdateBook = async (updatedBook) => {
+    try {
+      // json-server(3000포트)의 해당 ID 데이터 수정요청
+      const res = await fetch(`http://localhost:3000/books/${updatedBook.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedBook)
+      });
+
+      if (!res.ok) throw new Error('수정 실패');
+
+      setBooks(books.map((b) => (b.id == updatedBook.id ? updatedBook : b)));
+      alert('수정 완료!');
+    } catch (err) {
+      console.error(err);
+      alert('수정 중 에러가 발생했습니다.');
+    }
   };
 
   // 클릭한 id와 같은 글 찾음
@@ -219,6 +233,8 @@ function App() {
 
   // return문 추가, 테스트 후 컨트롤 k c 로 주석처리 하여 동기화 함.
   return (
+    <>
+    <Header/>
     <Routes>
       <Route
         path="/"
@@ -244,6 +260,8 @@ function App() {
         element={<BookAddScreen onAddBook={handleAddBook} />}
       />
     </Routes>
+    </>
+    
   );
 }
 
