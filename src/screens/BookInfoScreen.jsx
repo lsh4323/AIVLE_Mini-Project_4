@@ -71,60 +71,99 @@ function BookInfoScreen({
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleString('ko-KR');
+    if (!dateString) {
+      return '-';
+    }
+
+    const date = new Date(dateString);
+
+    if (isNaN(date.getTime())) {
+      return '-';
+    }
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}.${month}.${day}`;
   };
   return (
-    <>
-      <BackToListButton/> 
-      <h3>{book.title}</h3>
-      <p>글쓴이: {book.author}</p>
+    <div className="page-container">
+      
+      <div className="book-info-top-bar">
+        <BackToListButton/>
+        <div className="del-update-dutton">
+         <button 
+          type = "submit"
+          onClick={handleDelete}>
+            삭제
+        </button>
+        <button 
+          type = "delete"
+          onClick={() => navigate(`/editbook/${id}`)}>
+            수정
+        </button>
+      </div>
+      </div>
+      
 
-      {isEditing ? (
-        <>
-          <textarea
-            value={changeContent}
-            onChange={(e) => setChangeContent(e.target.value)}
-          />
+      <div className="book-edit-info">
+        <div className="book-edit-cover">
+            {book.coverImageUrl?.trim() ? (
+            <img src={book.coverImageUrl} alt={book.title} />
+            ) : (
+            <div className="empty-cover-image">
+                빈 이미지
+            </div>
+            )}
+        </div>
+        <div className="book-side-text">
+            <h1>{book.title}</h1>
+            <p className="gray">저자: {book.author}</p>
+            <p className="gray">등록일: {formatDate(book.createdAt)}</p>
+            <p className="gray">수정일: {formatDate(book.updatedAt)}</p>
+            <p className="black">내용</p>
+            <p className="black">{book.content}</p>
+        </div>
+      </div>
 
-          <button onClick={handleSave}>저장</button>
-          <button onClick={() => setIsEditing(false)}>취소</button>
-        </>
-      ) : (
-        <>
-          <p>내용: {book.content}</p>
-          <button onClick={() => setIsEditing(true)}>수정</button>
-        </>
-      )}
-
-      <img src={book.coverImageUrl} alt={book.title} />
-
-      {/* AI 이미지 생성 섹션 */}
       <div className="ai-image-section">
-        <h3>AI 이미지 생성</h3>
-        <h4>API 키 입력</h4>
+        <h3>AI 표지 생성</h3>
         <div>
+          <label className="ai-label">OpenAI API Key</label>
           <input
             type="password"
             value={userApiKey}
             onChange={(e) => setUserApiKey(e.target.value)}
             disabled={isGenerating}
             placeholder="sk-..."
-            className="api-key-input"
+            className="api-input"
           />
+        </div>
+        <div className="ai-input-row">
+          <div className="ai-input-group">
+            <label className="ai-label">생성 모델</label>
+            <input
+              type="text"
+              value="gpt-image-2"
+              disabled
+              className="api-input"
+            />
+          </div>
+
+          <div className="ai-input-group">
+            <label className="ai-label">사이즈</label>
+            <input
+              type="text"
+              value="1024x1536"
+              disabled
+              className="api-input"
+            />
+          </div>
         </div>
 
         <div>
-          <label>사이즈 (고정)</label>
-          <input
-            type="text"
-            value="1024x1536"
-            disabled
-            className="size-input"
-          />
-        </div>
-
-        <div>
-          <label>퀄리티</label>
+          <label className="ai-label">퀄리티</label>
           <select
             value={selectedQuality}
             onChange={(e) => setSelectedQuality(e.target.value)}
@@ -137,7 +176,7 @@ function BookInfoScreen({
           </select>
         </div>
 
-        <button 
+        <button
           onClick={handleMakeImgClick}
           disabled={isGenerating}
           className={`generate-btn ${isGenerating ? 'generating' : ''}`}
@@ -145,14 +184,7 @@ function BookInfoScreen({
           {isGenerating ? "이미지 생성 중..." : "AI 이미지 생성하기"}
         </button>
       </div>
-
-      <p>입력일: {formatDate(book.createdAt)}</p>
-      <p>수정 날짜: {formatDate(book.updatedAt)}</p>
-
-      <button onClick={handleDelete}>삭제</button>
-
-      
-    </>
+    </div>
   );
 }
 

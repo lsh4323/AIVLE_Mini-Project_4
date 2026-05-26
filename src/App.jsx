@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import HomeScreen from "./screens/HomeScreen";
 import BookInfoScreen from "./screens/BookInfoScreen";
+import BookEditScreen from "./screens/BookEditScreen";
 import BookAddScreen from "./screens/BookAddScreen";
+import Header from "./components/Header";
 import BookForm from "./components/BookForm";
 // BookDetail.jsx 불러와야 함.
 import BookDetail from "./components/BookDetail";
@@ -128,11 +130,14 @@ function App() {
   // AI 이미지 생성 함수
   const handleGenerateImage = async (selectedBook, userApiKey, selectedQuality) => {
     // API 키가 입력되지 않은 경우
+    console.log('book:', selectedBook);
+    console.log(`api: ${userApiKey}`);
+    console.log(`quality: ${selectedQuality}`);
     if (!userApiKey) {
       alert("API 키를 입력해주세요");
       return;
     }
-
+    console.log('함수 호출');
     try {
       // OpenAI Image API 주소
       const OPENAI_IMAGE_API_URL =
@@ -226,37 +231,46 @@ function App() {
     }
   };
 
-  // if (loading) return <><p>불러오는 중...</p></>;
-
-  // if (error) return <><p>에러: {error}</p></>;
-
   // return문 추가, 테스트 후 컨트롤 k c 로 주석처리 하여 동기화 함.
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <HomeScreen
+    <>
+      <Header/>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <HomeScreen
+              books={books}
+            />
+          }
+        />
+        <Route
+          path="/infobook/:id"
+          element={
+            <BookInfoScreen
+              books={books}
+              onDeleteBook={handleDeleteBook}
+              onUpdateBook={handleUpdateBook}
+              onMakeImg={handleGenerateImage}
+            />
+          }
+        />
+        <Route
+          path="/addbook"
+          element={
+            <BookAddScreen 
+              onAddBook={handleAddBook}
+            />}
+        />
+        <Route
+          path="/editbook/:id"
+          element={<BookEditScreen
             books={books}
-          />
-        }
-      />
-      <Route
-        path="/infobook/:id"
-        element={
-          <BookInfoScreen
-            books={books}
-            onDeleteBook={handleDeleteBook}
-            onUpdateBook={handleUpdateBook}
-            onMakeImg={handleGenerateImage}
-          />
-        }
-      />
-      <Route
-        path="/addbook"
-        element={<BookAddScreen onAddBook={handleAddBook} />}
-      />
-    </Routes>
+            onUpdateBook={handleUpdateBook} 
+            />}
+        />
+      </Routes>
+    </>
   );
 }
 
