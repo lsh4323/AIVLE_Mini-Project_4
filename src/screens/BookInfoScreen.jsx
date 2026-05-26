@@ -11,7 +11,7 @@ function BookInfoScreen({
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const book = books.find(book => book.id == Number(id));
+  const book = books.find(book => book.id == id);
 
   const [isEditing, setIsEditing] = useState(false);
   const [changeContent, setChangeContent] = useState(book?.content ?? '');
