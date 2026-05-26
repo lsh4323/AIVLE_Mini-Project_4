@@ -21,8 +21,10 @@ function BookItem({
             style={{ cursor: 'pointer' }}
         >
             <img className="card-image" src={coverImageUrl} alt={title} />
-            <h3 className="card-title">{title}</h3>
-            <p className="card-content">{content}</p>
+            <div className="card-info">
+                <h3 className="card-title">{title}</h3>
+                <p className="card-content">{content}</p>
+            </div>
         </li>
     );
 }
