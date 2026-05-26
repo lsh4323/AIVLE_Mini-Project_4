@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import BackToListButton from '../components/BackToListButton';
+import BackToListButton from "../components/BackToListButton";
 
 function BookAddScreen({ onAddBook }) {
   const navigate = useNavigate();
@@ -21,6 +21,9 @@ function BookAddScreen({ onAddBook }) {
       title: title,
       author: author,
       content: content,
+      coverImageUrl: "",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     });
 
     navigate("/");
@@ -28,13 +31,15 @@ function BookAddScreen({ onAddBook }) {
 
   return (
     <>
-      <BackToListButton/>
+      <BackToListButton />
 
       <h2 className="subtitle">책 등록</h2>
       {/* 입력 폼 */}
       <form onSubmit={handleSubmit}>
         <div>
-          <label className="form-label" htmlFor="title">제목</label>
+          <label className="form-label" htmlFor="title">
+            제목
+          </label>
           <input
             className="form-input"
             id="title"
@@ -46,7 +51,9 @@ function BookAddScreen({ onAddBook }) {
         </div>
 
         <div>
-          <label className="form-label" htmlFor="author">저자</label>
+          <label className="form-label" htmlFor="author">
+            저자
+          </label>
           <input
             className="form-input"
             id="author"
@@ -58,7 +65,9 @@ function BookAddScreen({ onAddBook }) {
         </div>
 
         <div>
-          <label className="form-label"h tmlFor="content">내용</label>
+          <label className="form-label" h tmlFor="content">
+            내용
+          </label>
           <textarea
             className="form-textarea"
             id="content"

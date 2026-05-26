@@ -10,16 +10,40 @@
       "updatedAt": "2026-05-26T05:53:43.272Z"
     },
     {
-      "title": "아아",
-      "author": "아",
-      "content": "아아",
-      "id": "ELPt2_BXcV4"
+      "id": "2",
+      "title": "달빛 속의 이야기",
+      "author": "김영희",
+      "content": "달빛 아래에서 펼쳐지는 감성적인 이야기 모음집",
+      "coverImageUrl": "",
+      "createdAt": "2026-04-25T10:30:00.000Z",
+      "updatedAt": "2026-05-26T05:53:43.272Z"
     },
     {
-      "title": "아",
-      "author": "아ㅏ",
-      "content": "아ㅏ",
-      "id": "yajhow7I40Y"
+      "id": "3",
+      "title": "별과 달의 노래",
+      "author": "이수민",
+      "content": "별과 달을 주제로 한 시집",
+      "coverImageUrl": "",
+      "createdAt": "2026-04-26T14:45:00.000Z",
+      "updatedAt": "2026-05-26T05:53:43.272Z"
+    },
+    {
+      "id": "4",
+      "title": "밤하늘의 비밀",
+      "author": "박지훈",
+      "content": "밤하늘에 숨겨진 이야기와 신비로운 현상들을 탐구하는 책",
+      "coverImageUrl": "",
+      "createdAt": "2026-04-27T16:20:00.000Z",
+      "updatedAt": "2026-05-26T05:53:43.272Z"
+    },
+    {
+      "title": "안녕하세요",
+      "author": "안ㅇ녕",
+      "content": "안녕",
+      "coverImageUrl": "",
+      "createdAt": "2026-05-26T08:31:00.177Z",
+      "updatedAt": "2026-05-26T08:31:00.177Z",
+      "id": "RNYf10Yybu4"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
