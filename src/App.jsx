@@ -175,9 +175,9 @@ function App() {
       });
 
       // 예외 처리
-      if (createImage.status === 401) throw new Error("API 키가 유효하지 않습니다. 확인 후 다시 시도해주세요.");
-      if (createImage.status === 429) throw new Error("요청이 너무 많습니다. 잠시 후 다시 시도해주세요.");
-      if (!createImage.ok) throw new Error("OpenAI 요청 실패");
+      if (CreateImage.status === 401) throw new Error("API 키가 유효하지 않습니다. 확인 후 다시 시도해주세요.");
+      if (CreateImage.status === 429) throw new Error("요청이 너무 많습니다. 잠시 후 다시 시도해주세요.");
+      if (!CreateImage.ok) throw new Error("OpenAI 요청 실패");
 
       /*   *********************************************************************    */
       // OpenAI 응답에서 base64 이미지 데이터 추출
