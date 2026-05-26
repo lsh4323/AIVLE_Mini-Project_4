@@ -137,11 +137,11 @@ function App() {
 
       [텍스트 지침]
       표지에는 아래의 요소들이 포함되어야 합니다.
-      - 제목: "${selectedBook.title}" (책 분위기에 맞는 타이포그래피를 사용해서 눈에 띄게 배치할 것)
-      - 저자명: "${selectedBook.author}" (제목과 조화를 이루도록 적절한 위치에 배치할 것)
+      - 제목: "${currentBook.title}" (책 분위기에 맞는 타이포그래피를 사용해서 눈에 띄게 배치할 것)
+      - 저자명: "${currentBook.author}" (제목과 조화를 이루도록 적절한 위치에 배치할 것)
       
       [시각적 지침]
-      - 다음 줄거리와 핵심 내용을 바탕으로 표지 일러스트를 생성해주세요: "${selectedBook.content}"
+      - 다음 줄거리와 핵심 내용을 바탕으로 표지 일러스트를 생성해주세요: "${currentBook.content}"
 
       [스타일 및 분위기]
       - 스타일: 책의 장르와 분위기에 맞는 스타일로 표지를 디자인해주세요. 예를 들어, 미스테리 소설이라면 어두운 색조와 음영을 사용하고,
@@ -179,7 +179,7 @@ function App() {
 
       // json-server에 PATCH reqeust
       const updateRes = await fetch(
-        `http://localhost:3000/books/${selectedBook.id}`,
+        `http://localhost:3000/books/${currentBook.id}`,
         {
           method: "PATCH",
           headers: {
@@ -200,7 +200,7 @@ function App() {
       // React 상태 업데이트
       setBooks((prevBooks) =>
         prevBooks.map((book) =>
-          book.id === selectedBook.id ? updatedBook : book,
+          book.id === currentBook.id ? updatedBook : book,
         ),
       );
       setSelectedBook(updatedBook);
@@ -239,7 +239,6 @@ function App() {
           />
         }
       />
-      <Route path="/addbook" element={<BookAddScreen />} />
       <Route
         path="/addbook"
         element={<BookAddScreen onAddBook={handleAddBook} />}
