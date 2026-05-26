@@ -58,7 +58,7 @@ function BookEditScreen({
                     <img src={book.coverImageUrl} alt={book.title} />
                     ) : (
                     <div className="empty-cover-image">
-                        1024x1536
+                        빈 이미지
                     </div>
                     )}
                 </div>
