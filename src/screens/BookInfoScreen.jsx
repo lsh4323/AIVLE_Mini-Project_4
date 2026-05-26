@@ -171,7 +171,7 @@ function BookInfoScreen({
             className="quality-select"
           >
             <option value="low">Low</option>
-            <option value="medium">Middle</option>
+            <option value="medium">Medium</option>
             <option value="high">High</option>
           </select>
         </div>

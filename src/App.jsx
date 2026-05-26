@@ -7,7 +7,6 @@ import BookAddScreen from "./screens/BookAddScreen";
 import BookForm from "./components/BookForm";
 // BookDetail.jsx 불러와야 함.
 import BookDetail from "./components/BookDetail";
-import Header from "./components/Header";
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -16,7 +15,18 @@ function App() {
 
   // 수정 기능: 선택된 도서의 ID 상태 추가
   // 어떤 책이 클릭되어 상세 화면으로 넘어갔는지를 기억하는 리액트의 상태
-  const [selectedBookId, setSelectedBookId] = useState(null);
+  const [currentBook, setCurrentBook] = useState(null);
+
+
+  // 공통 에러 처리 함수
+  const notifyFetchError = (err, defaultMessage) => {
+    console.error(err);
+    if (err.message === "Failed to fetch") {
+      alert("네트워크 오류: 서버 연결을 확인해주세요.");
+    } else {
+      alert(defaultMessage);
+    }
+  };
 
   // json-server 데이터 가져오기
   useEffect(() => {
@@ -28,8 +38,7 @@ function App() {
         const data = await res.json();
         setBooks(data);
       } catch (err) {
-        console.error(err);
-        setError("데이터를 불러오지 못했습니다.");
+        handleFetchError(err, "데이터를 불러오지 못했습니다.");
       }
       setLoading(false);
     }
@@ -52,32 +61,34 @@ function App() {
       setBooks([savedBook, ...books]);
       alert("등록 완료!");
     } catch (err) {
-      console.error(err);
-      alert("등록 중 에러가 발생했습니다.");
+      handleFetchError(err, "등록 중 에러가 발생했습니다.");
     }
   };
 
+  // const handleUpdateBook = (updatedBook) => {
+  //   // 5/21 수업 참고하여 map이용
+  //   // 수정된 id와 일치하는 객체만 교체함.
+  //   setBooks(books.map((b) => (b.id == updatedBook.id ? updatedBook : b)));
+  // };
   const handleUpdateBook = async (updatedBook) => {
-    try {
-      // json-server(3000포트)의 해당 ID 데이터 수정요청
-      const res = await fetch(`http://localhost:3000/books/${updatedBook.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedBook)
-      });
+  try {
+    const res = await fetch(`http://localhost:3000/books/${updatedBook.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedBook),
+    });
+    if (!res.ok) throw new Error('수정 실패');
+    const saved = await res.json();
 
-      if (!res.ok) throw new Error('수정 실패');
-
-      setBooks(books.map((b) => (b.id == updatedBook.id ? updatedBook : b)));
-      alert('수정 완료!');
-    } catch (err) {
-      console.error(err);
-      alert('수정 중 에러가 발생했습니다.');
-    }
-  };
+    // 서버 응답값으로 상태 업데이트
+    setBooks(books.map((b) => (b.id == saved.id ? saved : b)));
+  } catch (err) {
+    handleFetchError(err, '수정 중 오류가 발생했습니다.');
+  }
+};
 
   // 클릭한 id와 같은 글 찾음
-  const currentBook = books.find((b) => b.id === selectedBookId);
+  // const currentBook = books.find((b) => b.id === selectedBookId);
 
   // 책 삭제 함수
   const handleDeleteBook = async (id) => {
@@ -97,25 +108,7 @@ function App() {
       setBooks((prevBooks) => prevBooks.filter((book) => book.id !== id));
       alert("삭제 성공~~~");
     } catch (err) {
-      console.error(err);
-      alert("삭제 실패ㅠㅠ");
-    }
-  };
-
-  // 책 상세 조회 함수
-  const handleViewBook = async (id) => {
-    try {
-      const res = await fetch(`http://localhost:3000/books/${id}`);
-      if (!res.ok) {
-        throw new Error("상세 정보를 불러오지 못했습니다.");
-      }
-      const data = await res.json();
-
-      // 콘솔창에만 찍던 데이터를 이제 상태 바구니에 담습니다.
-      setSelectedBook(data);
-    } catch (err) {
-      console.error(err);
-      alert("책 정보를 불러오지 못했어요");
+      handleFetchError(err, "삭제 실패ㅠㅠ");
     }
   };
 
@@ -185,16 +178,22 @@ function App() {
         }),
       });
 
-      if (!CreateImage.ok) {
-        const errData = await CreateImage.json();
-        console.error("OpenAI 상세 에러 내역:", errData);
-        throw new Error(`OpenAI 거절 사유: ${errData.error?.message}`);
+      // 예외 처리
+      if (CreateImage.status === 401) throw new Error("API 키가 유효하지 않습니다. 확인 후 다시 시도해주세요.");
+      if (CreateImage.status === 429) throw new Error("요청이 너무 많습니다. 잠시 후 다시 시도해주세요.");
+      if (!CreateImage.ok) throw new Error("OpenAI 요청 실패");
+
+      /*   *********************************************************************    */
+      // OpenAI 응답에서 base64 이미지 데이터 추출
+      let responseData;
+      try {
+        responseData = await CreateImage.json();
+      } catch {
+        throw new Error("응답 형식이 올바르지 않습니다.");
       }
 
-      //   *********************************************************************
-      // OpenAI 응답에서 base64 이미지 데이터 추출
-      const responseData = await CreateImage.json();
       const b64Image = responseData.data[0].b64_json;
+      if (!b64Image) throw new Error("이미지 데이터가 응답에 포함되어 있지 않습니다.");
 
       // b64 이미지를 Data url로 변환
       const imageUrl = `data:image/png;base64,${b64Image}`;
@@ -213,32 +212,26 @@ function App() {
           }),
         },
       );
-
       // json-server 업데이트 성공 여부 확인
       if (!updateRes.ok) throw new Error("책 정보 업데이트 실패");
 
-      const updatedBook = await updateRes.json();
-
       // React 상태 업데이트
+      const updatedBook = await updateRes.json();
       setBooks((prevBooks) =>
         prevBooks.map((book) =>
           book.id === selectedBook.id ? updatedBook : book,
         ),
       );
-      setSelectedBook(updatedBook);
-
+      setCurrentBook(updatedBook);
       // 성공 알림
       alert("책 이미지가 성공적으로 생성되고 업데이트되었습니다!");
     } catch (err) {
-      console.error(err);
-      alert(err.message);
+      handleFetchError(err, "이미지 생성 또는 업데이트에 실패했습니다.");
     }
   };
 
   // return문 추가, 테스트 후 컨트롤 k c 로 주석처리 하여 동기화 함.
   return (
-    <>
-    <Header/>
     <Routes>
       <Route
         path="/"
@@ -274,8 +267,6 @@ function App() {
           />}
       />
     </Routes>
-    </>
-    
   );
 }
 
