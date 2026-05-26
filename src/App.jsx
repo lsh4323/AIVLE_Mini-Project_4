@@ -200,7 +200,7 @@ function App() {
       // React 상태 업데이트
       setBooks((prevBooks) =>
         prevBooks.map((book) =>
-          book.id === currentBook.id ? updatedBook : book,
+          book.id === selectedBook.id ? updatedBook : book,
         ),
       );
       setSelectedBook(updatedBook);
