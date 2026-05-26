@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import BackToListButton from '../components/BackToListButton';
 
 function BookInfoScreen({
   books,
@@ -51,6 +52,7 @@ function BookInfoScreen({
   };
   return (
     <>
+      <BackToListButton/> 
       <h3>{book.title}</h3>
       <p>글쓴이: {book.author}</p>
 
@@ -78,9 +80,7 @@ function BookInfoScreen({
 
       <button onClick={handleDelete}>삭제</button>
 
-      <button onClick={() => navigate('/')}>
-        홈으로 이동
-      </button>
+      
     </>
   );
 }

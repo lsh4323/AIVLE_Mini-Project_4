@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import BackToListButton from '../components/BackToListButton';
 
 function BookAddScreen({ onAddBook }) {
   const navigate = useNavigate();
@@ -27,18 +28,15 @@ function BookAddScreen({ onAddBook }) {
 
   return (
     <>
-      <div
-        onClick={() => navigate("/")}
-        style={{ cursor: "pointer", marginBottom: "15px" }}
-      >
-        ← 목록으로 돌아가기
-      </div>
+      <BackToListButton/>
 
+      <h2 className="subtitle">책 등록</h2>
       {/* 입력 폼 */}
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="title">제목</label>
+          <label className="form-label" htmlFor="title">제목</label>
           <input
+            className="form-input"
             id="title"
             type="text"
             placeholder="제목을 입력하세요"
@@ -48,8 +46,9 @@ function BookAddScreen({ onAddBook }) {
         </div>
 
         <div>
-          <label htmlFor="author">저자</label>
+          <label className="form-label" htmlFor="author">저자</label>
           <input
+            className="form-input"
             id="author"
             type="text"
             placeholder="저자를 입력하세요"
@@ -59,8 +58,9 @@ function BookAddScreen({ onAddBook }) {
         </div>
 
         <div>
-          <label htmlFor="content">내용</label>
+          <label className="form-label"htmlFor="content">내용</label>
           <textarea
+            className="form-textarea"
             id="content"
             placeholder="책 내용을 입력하세요"
             rows="10"

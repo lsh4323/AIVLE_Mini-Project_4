@@ -13,8 +13,6 @@ function HomeScreen({ books }) {
         + 새 도서 등록
       </button>
       <BookList books={books} />
-      
-      
     </>
   );
 }
