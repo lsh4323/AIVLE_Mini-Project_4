@@ -58,7 +58,7 @@ function BookAddScreen({ onAddBook }) {
         </div>
 
         <div>
-          <label className="form-label"htmlFor="content">내용</label>
+          <label className="form-label"h tmlFor="content">내용</label>
           <textarea
             className="form-textarea"
             id="content"
