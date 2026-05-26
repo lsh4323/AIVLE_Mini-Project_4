@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import BackToListButton from '../components/BackToListButton';
+import emptyImage from '../images/empty-image.png';
 
 function BookInfoScreen({
   books,
@@ -112,9 +113,10 @@ function BookInfoScreen({
             {book.coverImageUrl?.trim() ? (
             <img src={book.coverImageUrl} alt={book.title} />
             ) : (
-            <div className="empty-cover-image">
-                빈 이미지
-            </div>
+            <img
+              src={emptyImage}
+              alt="빈 이미지"
+          />
             )}
         </div>
         <div className="book-side-text">
