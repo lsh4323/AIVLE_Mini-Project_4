@@ -104,23 +104,6 @@ function App() {
     }
   };
 
-  // 책 상세 조회 함수
-  const handleViewBook = async (id) => {
-    try {
-      const res = await fetch(`http://localhost:3000/books/${id}`);
-      if (!res.ok) {
-        throw new Error("상세 정보를 불러오지 못했습니다.");
-      }
-      const data = await res.json();
-
-      // 콘솔창에만 찍던 데이터를 이제 상태 바구니에 담습니다.
-      setCurrentBook(data);
-    } catch (err) {
-      console.error(err);
-      alert("책 정보를 불러오지 못했어요");
-    }
-  };
-
   if (loading)
     return (
       <>
