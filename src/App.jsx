@@ -119,7 +119,7 @@ function App() {
     );
 
   // AI 이미지 생성 함수
-  const handleGenerateImage = async () => {
+  const handleGenerateImage = async (selectedBook, userApiKey, selectedQuality) => {
     // API 키가 입력되지 않은 경우
     if (!userApiKey) {
       alert("API 키를 입력해주세요");
