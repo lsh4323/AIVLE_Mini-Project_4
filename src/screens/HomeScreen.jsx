@@ -6,17 +6,13 @@ function HomeScreen({ books }) {
 
   return (
     <>
-      <h1>홈 화면</h1>
-
+      <p className="book-list-title">
+        도서 목록
+      </p>
+      <button className="add-book-button" onClick={() => navigate('/addbook')}>
+        + 새 도서 등록
+      </button>
       <BookList books={books} />
-
-      <button onClick={() => navigate('/infobook')}>
-        책 화면으로 이동
-      </button>
-
-      <button onClick={() => navigate('/addbook')}>
-        책 추가 화면 이동
-      </button>
     </>
   );
 }
