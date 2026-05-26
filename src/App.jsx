@@ -14,7 +14,7 @@ function App() {
 
   // 수정 기능: 선택된 도서의 ID 상태 추가
   // 어떤 책이 클릭되어 상세 화면으로 넘어갔는지를 기억하는 리액트의 상태
-  const [selectedBookId, setSelectedBookId] = useState(null);
+  const [currentBook, setCurrentBook] = useState(null);
 
   // json-server 데이터 가져오기
   useEffect(() => {
@@ -55,14 +55,31 @@ function App() {
     }
   };
 
-  const handleUpdateBook = (updatedBook) => {
-    // 5/21 수업 참고하여 map이용
-    // 수정된 id와 일치하는 객체만 교체함.
-    setBooks(books.map((b) => (b.id == updatedBook.id ? updatedBook : b)));
-  };
+  // const handleUpdateBook = (updatedBook) => {
+  //   // 5/21 수업 참고하여 map이용
+  //   // 수정된 id와 일치하는 객체만 교체함.
+  //   setBooks(books.map((b) => (b.id == updatedBook.id ? updatedBook : b)));
+  // };
+  const handleUpdateBook = async (updatedBook) => {
+  try {
+    const res = await fetch(`http://localhost:3000/books/${updatedBook.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedBook),
+    });
+    if (!res.ok) throw new Error('수정 실패');
+    const saved = await res.json();
+
+    // 서버 응답값으로 상태 업데이트
+    setBooks(books.map((b) => (b.id == saved.id ? saved : b)));
+  } catch (err) {
+    console.error(err);
+    alert('수정 중 오류가 발생했습니다.');
+  }
+};
 
   // 클릭한 id와 같은 글 찾음
-  const currentBook = books.find((b) => b.id === selectedBookId);
+  // const currentBook = books.find((b) => b.id === selectedBookId);
 
   // 책 삭제 함수
   const handleDeleteBook = async (id) => {
@@ -97,7 +114,7 @@ function App() {
       const data = await res.json();
 
       // 콘솔창에만 찍던 데이터를 이제 상태 바구니에 담습니다.
-      setSelectedBook(data);
+      setCurrentBook(data);
     } catch (err) {
       console.error(err);
       alert("책 정보를 불러오지 못했어요");
@@ -203,7 +220,7 @@ function App() {
           book.id === selectedBook.id ? updatedBook : book,
         ),
       );
-      setSelectedBook(updatedBook);
+      setCurrentBook(updatedBook);
 
       // 성공 알림
       alert("책 이미지가 성공적으로 생성되고 업데이트되었습니다!");
