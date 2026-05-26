@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import emptyImage from '../images/empty-image.png';
 
 function BookItem({
   id,
@@ -20,7 +21,15 @@ function BookItem({
             onClick={() => navigate(`/infobook/${id}`)}
             style={{ cursor: 'pointer' }}
         >
-            <img className="card-image" src={coverImageUrl} alt={title} />
+            {coverImageUrl?.trim() ? (
+                <img className="card-image" src={coverImageUrl} alt={title} />
+                ) : (
+                <img
+                    className="card-image"
+                    src={emptyImage}
+                    alt="빈 이미지"
+                />
+            )}
             <div className="card-info">
                 <h3 className="card-title">{title}</h3>
                 <p className="card-content">{content}</p>
