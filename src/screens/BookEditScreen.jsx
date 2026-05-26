@@ -39,6 +39,11 @@ function BookEditScreen({
         });
 
         setIsEditing(false);
+        navigate(`/infobook/${book.id}`);
+    };
+
+    const handleCancel = () => {
+        navigate(`/infobook/${book.id}`);
     };
 
     const formatDate = (dateString) => {
@@ -74,7 +79,7 @@ function BookEditScreen({
             
             <div className='buttons'>
                 <button type = "submit" onClick={handleSave}>저장하기</button>
-                <button type = "button" onClick={() => setIsEditing(false)}>취소하기</button>
+                <button type = "button" onClick={handleCancel}>취소하기</button>
             </div>
         </div>
     );
