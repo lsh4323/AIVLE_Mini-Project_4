@@ -92,7 +92,7 @@ function BookInfoScreen({
       ) : (
         <>
           <p>내용: {book.content}</p>
-          <button onClick={() => setIsEditing(true)}>수정</button>
+          <button onClick={() => navigate(`/editbook/${id}`)}>수정</button>
         </>
       )}
 
@@ -123,7 +123,7 @@ function BookInfoScreen({
         </div>
 
         <div>
-          <label>quality</label>
+          <label>퀄리티</label>
           <select
             value={selectedQuality}
             onChange={(e) => setSelectedQuality(e.target.value)}
@@ -131,7 +131,7 @@ function BookInfoScreen({
             className="quality-select"
           >
             <option value="low">Low</option>
-            <option value="middle">Middle</option>
+            <option value="medium">Middle</option>
             <option value="high">High</option>
           </select>
         </div>
