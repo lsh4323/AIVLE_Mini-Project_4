@@ -11,18 +11,18 @@ function BookItem({
   updatedAt
 }) {
     const navigate = useNavigate();
-
+    const formatDate = (dateString) => {
+        return new Date(dateString).toLocaleString('ko-KR');
+    };
     return (
         <li
             className="book-card"
             onClick={() => navigate(`/infobook/${id}`)}
             style={{ cursor: 'pointer' }}
         >
-            <h3>{title}</h3>
-            <p>글쓴이: {author}</p>
-            <img src={coverImageUrl} alt={title} />
-            <p>입력일: {createdAt}</p>
-            <p>수정 날짜: {updatedAt}</p>
+            <img className="card-image" src={coverImageUrl} alt={title} />
+            <h3 className="card-title">{title}</h3>
+            <p className="card-content">{content}</p>
         </li>
     );
 }

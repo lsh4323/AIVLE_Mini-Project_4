@@ -46,11 +46,11 @@ function BookInfoScreen({
     onDeleteBook(book.id);
     navigate('/');
   };
-
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleString('ko-KR');
+  };
   return (
     <>
-      <h1>책 상세 화면</h1>
-
       <h3>{book.title}</h3>
       <p>글쓴이: {book.author}</p>
 
@@ -73,8 +73,8 @@ function BookInfoScreen({
 
       <img src={book.coverImageUrl} alt={book.title} />
 
-      <p>입력일: {book.createdAt}</p>
-      <p>수정 날짜: {book.updatedAt}</p>
+      <p>입력일: {formatDate(book.createdAt)}</p>
+      <p>수정 날짜: {formatDate(book.updatedAt)}</p>
 
       <button onClick={handleDelete}>삭제</button>
 

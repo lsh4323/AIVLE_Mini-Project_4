@@ -34,8 +34,6 @@ function BookAddScreen({ onAddBook }) {
         ← 목록으로 돌아가기
       </div>
 
-      <h3>책 등록</h3>
-
       {/* 입력 폼 */}
       <form onSubmit={handleSubmit}>
         <div>
