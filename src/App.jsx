@@ -179,7 +179,7 @@ function App() {
 
       // json-server에 PATCH reqeust
       const updateRes = await fetch(
-        `http://localhost:3000/books/${currentBook.id}`,
+        `http://localhost:3000/books/${selectedBook.id}`,
         {
           method: "PATCH",
           headers: {
