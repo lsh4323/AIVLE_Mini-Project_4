@@ -19,7 +19,7 @@ function BookInfoScreen({
 
   {/* AI 이미지 생성 useState */}
   const [userApiKey, setUserApiKey] = useState('');
-  const [selectedQuality, setSelectedQuality] = useState('middle');
+  const [selectedQuality, setSelectedQuality] = useState('medium');
   const [isGenerating, setIsGenerating] = useState(false);
 
   if (!book) {
@@ -132,7 +132,7 @@ function BookInfoScreen({
             className="quality-select"
           >
             <option value="low">Low</option>
-            <option value="middle">Middle</option>
+            <option value="medium">Medium</option>
             <option value="high">High</option>
           </select>
         </div>
