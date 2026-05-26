@@ -4,6 +4,7 @@ import HomeScreen from "./screens/HomeScreen";
 import BookInfoScreen from "./screens/BookInfoScreen";
 import BookEditScreen from "./screens/BookEditScreen";
 import BookAddScreen from "./screens/BookAddScreen";
+import Header from "./components/Header";
 import BookForm from "./components/BookForm";
 // BookDetail.jsx 불러와야 함.
 import BookDetail from "./components/BookDetail";
@@ -232,41 +233,44 @@ function App() {
 
   // return문 추가, 테스트 후 컨트롤 k c 로 주석처리 하여 동기화 함.
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <HomeScreen
+    <>
+      <Header/>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <HomeScreen
+              books={books}
+            />
+          }
+        />
+        <Route
+          path="/infobook/:id"
+          element={
+            <BookInfoScreen
+              books={books}
+              onDeleteBook={handleDeleteBook}
+              onUpdateBook={handleUpdateBook}
+              onMakeImg={handleGenerateImage}
+            />
+          }
+        />
+        <Route
+          path="/addbook"
+          element={
+            <BookAddScreen 
+              onAddBook={handleAddBook}
+            />}
+        />
+        <Route
+          path="/editbook/:id"
+          element={<BookEditScreen
             books={books}
-          />
-        }
-      />
-      <Route
-        path="/infobook/:id"
-        element={
-          <BookInfoScreen
-            books={books}
-            onDeleteBook={handleDeleteBook}
-            onUpdateBook={handleUpdateBook}
-            onMakeImg={handleGenerateImage}
-          />
-        }
-      />
-      <Route
-        path="/addbook"
-        element={
-          <BookAddScreen 
-            onAddBook={handleAddBook}
-          />}
-      />
-      <Route
-        path="/editbook/:id"
-        element={<BookEditScreen
-          books={books}
-          onUpdateBook={handleUpdateBook} 
-          />}
-      />
-    </Routes>
+            onUpdateBook={handleUpdateBook} 
+            />}
+        />
+      </Routes>
+    </>
   );
 }
 
