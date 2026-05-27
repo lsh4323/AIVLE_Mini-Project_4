@@ -10,6 +10,7 @@ body {
   padding: 0 40px;
   padding-bottom: 40px;
 }
+
 /* ===== 헤더 ===== */
 .header {
   background-color: #99ad7a;
@@ -27,13 +28,10 @@ body {
   font-size: 26px;
   font-weight: 700;
   color: #5e432f;
-  margin: 0 30px 16px 30px;
   display: inline-block;
 }
 
 .add-book-button {
-  float: right;
-  margin: 0 30px 16px 0;
   padding: 14px 28px;
   background-color: #546b41;
   color: white;
@@ -69,10 +67,12 @@ body {
     box-shadow 0.2s ease;
   min-height: 160px;
 }
+
 .card-info {
   min-width: 0;
   flex: 1;
 }
+
 .book-card:hover {
   background-color: #ece8d8;
   transform: translateY(-3px);
@@ -87,6 +87,7 @@ body {
   flex-shrink: 0;
   box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15);
 }
+
 .card-title {
   font-size: 1.05rem;
   font-weight: 600;
@@ -128,6 +129,7 @@ form {
   margin: 0 30px;
   max-width: 700px;
 }
+
 label {
   font-size: 15px;
   font-weight: 700;
@@ -136,6 +138,7 @@ label {
   width: 60px;
   margin-bottom: 12px;
 }
+
 input {
   width: calc(100% - 70px);
   padding: 10px 14px;
@@ -145,6 +148,7 @@ input {
   margin-bottom: 12px;
   background-color: #ffffff;
 }
+
 textarea {
   width: calc(100% - 70px);
   padding: 10px 14px;
@@ -155,12 +159,14 @@ textarea {
   resize: vertical;
   background-color: #ffffff;
 }
+
 form > div:last-child {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
   margin-top: 20px;
 }
+
 button[type="submit"] {
   background-color: #546b41;
   color: white;
@@ -171,6 +177,7 @@ button[type="submit"] {
   cursor: pointer;
   width: 110px;
 }
+
 button[type="button"] {
   background-color: white;
   color: #546b41;
@@ -195,14 +202,14 @@ button[type="delete"] {
 
 /* ===== 빈 이미지 ===== */
 .empty-cover-image {
-  width: 345px;
-  height: 488px;
+  width: 256px;
+  height: 384px;
   background-color: red;
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 64px;
+  font-size: 32px;
   font-weight: bold;
 }
 
@@ -219,22 +226,11 @@ button[type="delete"] {
   object-fit: cover;
 }
 
-.empty-cover-image {
-  width: 256px;
-  height: 384px;
-  background-color: red;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 32px;
-  font-weight: bold;
-}
-
 .book-side-text h1 {
   margin-top: 0;
   font-size: 35px;
 }
+
 .book-side-text p.gray {
   font-size: 16px;
   color: gray;
@@ -280,12 +276,14 @@ button[type="delete"] {
   resize: vertical;
   box-sizing: border-box;
 }
+
 .content-count {
   margin: 6px 0 0;
   font-size: 12px;
   color: #666;
   text-align: right;
 }
+
 .buttons {
   display: flex;
   justify-content: flex-end;
@@ -323,6 +321,7 @@ button[type="delete"] {
   font-weight: bold;
   white-space: nowrap;
 }
+
 .quality-select {
   width: 100%;
   height: 38px;
@@ -332,6 +331,7 @@ button[type="delete"] {
   font-size: 14px;
   box-sizing: border-box;
 }
+
 .api-input {
   width: 100%;
   height: 38px;
@@ -340,10 +340,12 @@ button[type="delete"] {
   border: 1px solid #ccc;
   border-radius: 6px;
 }
+
 .ai-input-row {
   display: flex;
   gap: 12px;
 }
+
 .ai-input-group {
   flex: 1;
 }
@@ -445,7 +447,7 @@ button[type="delete"] {
 .home-header {
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
   padding: 0 30px;
   margin-bottom: 16px;
 }
@@ -453,12 +455,12 @@ button[type="delete"] {
 .search-area {
   display: flex;
   gap: 8px;
-  flex: 1;
+  width: 400px;
 }
 
 .search-input {
   flex: 1;
-  padding: 10px 16px;
+  padding: 14px 16px;
   border: 1px solid #cccccc;
   border-radius: 8px;
   font-size: 14px;
@@ -468,12 +470,12 @@ button[type="delete"] {
 }
 
 .search-button {
-  padding: 10px 20px;
+  padding: 14px 20px;
   background-color: #0059A7;
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 16px;
   cursor: pointer;
   font-weight: 600;
 }
@@ -491,5 +493,5 @@ button[type="delete"] {
   font-size: 14px;
   background-color: #ffffff;
   cursor: pointer;
-  color: #5E432F;
+  color: #5e432f;
 }
