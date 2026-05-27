@@ -19,7 +19,6 @@ function BookInfoScreen({
   console.log('changeContent : ', changeContent);
 
   {/* AI 이미지 생성 useState */}
-  const [userApiKey, setUserApiKey] = useState('');
   const [selectedQuality, setSelectedQuality] = useState('medium');
   const [isGenerating, setIsGenerating] = useState(false);
 
@@ -56,14 +55,10 @@ function BookInfoScreen({
 
   {/* AI 이미지 생성 핸들러 */}
   const handleMakeImgClick = async () => {
-    if (!userApiKey) {
-      alert('API 키를 입력해주세요.');
-      return;
-    }
     setIsGenerating(true);
 
     try {
-      await onMakeImg(book, userApiKey, selectedQuality);
+      await onMakeImg(book, selectedQuality);
     } catch (err) {
       console.error(err);
     } finally {
@@ -131,17 +126,7 @@ function BookInfoScreen({
 
       <div className="ai-image-section">
         <h3>AI 표지 생성</h3>
-        <div>
-          <label className="ai-label">OpenAI API Key</label>
-          <input
-            type="password"
-            value={userApiKey}
-            onChange={(e) => setUserApiKey(e.target.value)}
-            disabled={isGenerating}
-            placeholder="sk-..."
-            className="api-input"
-          />
-        </div>
+        
         <div className="ai-input-row">
           <div className="ai-input-group">
             <label className="ai-label">생성 모델</label>
