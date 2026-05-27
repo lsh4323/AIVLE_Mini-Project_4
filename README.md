@@ -137,11 +137,36 @@ AIVLE_Mini-Project_4/
 
 ---
 ## Flow chart
-
+<p>
+<img width="5288" height="4440" alt="Image" src="https://github.com/user-attachments/assets/b382c558-7888-4434-9ef3-a5ce5535a525" />
+</p>
 
 ---
 ## UI
-
+<p>
+<img width="1108" height="893" alt="Image" src="https://github.com/user-attachments/assets/caf2645e-535a-42ea-879c-367a2c45f6e9" />
+</p>
+<p>
+<img width="1480" height="861" alt="Image" src="https://github.com/user-attachments/assets/9fade4fe-fba3-4a73-88b5-3e9771775a49" />
+</p>
+<p>
+<img width="873" height="917" alt="Image" src="https://github.com/user-attachments/assets/87461a47-a4fa-49f2-8b59-6526b9b33234" />
+</p>
+<p>
+<img width="855" height="906" alt="Image" src="https://github.com/user-attachments/assets/a29e713e-dd52-4762-a26d-0350b444a1ef" />
+</p>
 
 ---
 ## 실행화면
+<p>
+<img width="2560" height="1600" alt="Image" src="https://github.com/user-attachments/assets/c2ae8d46-37fa-449d-a3f0-7a7df925affd" />
+</p>
+<p>
+<img width="2235" height="997" alt="Image" src="https://github.com/user-attachments/assets/b907d5c9-cb94-4737-b794-c331ba3261ac" />
+</p>
+<p>
+<img width="1582" height="1022" alt="Image" src="https://github.com/user-attachments/assets/49914c0b-cf3b-44ad-b7b6-3dd19cf252d3" />
+</p>
+<p>
+<img width="1354" height="1005" alt="Image" src="https://github.com/user-attachments/assets/a0b6adf3-639f-4166-9a79-5cd281977b0f" />
+</p>
