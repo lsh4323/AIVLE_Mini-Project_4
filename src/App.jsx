@@ -135,6 +135,28 @@ function App() {
     }
   };
 
+  const handleUpdateBook = async (updatedBook) => {
+  try {
+    const res = await fetch(`http://localhost:3000/books/${updatedBook.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedBook),
+    });
+
+    // error handling
+    if (res.status === 404) throw new Error("수정할 책을 찾을 수 없습니다.");
+    if (res.status === 500) throw new Error("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+    if (!res.ok) throw new Error("수정 실패");
+
+    const saved = await res.json();
+
+    // 서버 응답값으로 상태 업데이트
+    setBooks(books.map((b) => (b.id == saved.id ? saved : b)));
+  } catch (err) {
+    handleFetchError(err, err.message);
+  }
+};
+
   // 책 삭제 함수
   const handleDeleteBook = async (id) => {
     if (!window.confirm("정말 삭제하시겠습니까?")) return;
