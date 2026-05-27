@@ -33,18 +33,11 @@ function BookInfoScreen({
 
   const handleSave = () => {
     const newUpdatedAt = new Date().toISOString();
-
     onUpdateBook({
       ...book,
       content: changeContent,
       updatedAt: newUpdatedAt,
     });
-    console.log('updatedbook : ', {
-      ...book,
-      content: changeContent,
-      updatedAt: newUpdatedAt,
-    });
-
     setIsEditing(false);
   };
 
@@ -53,10 +46,8 @@ function BookInfoScreen({
     navigate('/');
   };
 
-  {/* AI 이미지 생성 핸들러 */}
   const handleMakeImgClick = async () => {
     setIsGenerating(true);
-
     try {
       await onMakeImg(book, selectedQuality);
     } catch (err) {
@@ -67,88 +58,61 @@ function BookInfoScreen({
   };
 
   const formatDate = (dateString) => {
-    if (!dateString) {
-      return '-';
-    }
-
+    if (!dateString) return '-';
     const date = new Date(dateString);
-
-    if (isNaN(date.getTime())) {
-      return '-';
-    }
-
+    if (isNaN(date.getTime())) return '-';
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
-
     return `${year}.${month}.${day}`;
   };
+
   return (
     <div className="page-container">
-      
       <div className="book-info-top-bar">
         <BackToListButton/>
         <div className="del-update-dutton">
-         <button 
-          type = "delete"
-          onClick={handleDelete}>
-            삭제
-        </button>
-        <button 
-          type = "submit"
-          onClick={() => navigate(`/editbook/${id}`)}>
-            수정
-        </button>
+          <button type="delete" onClick={handleDelete}>삭제</button>
+          <button type="submit" onClick={() => navigate(`/editbook/${id}`)}>수정</button>
+        </div>
       </div>
-      </div>
-      
 
       <div className="book-edit-info">
         <div className="book-edit-cover">
-            {book.coverImageUrl?.trim() ? (
+          {book.coverImageUrl?.trim() ? (
             <img src={book.coverImageUrl} alt={book.title} />
-            ) : (
-            <img
-              src={emptyImage}
-              alt="빈 이미지"
-          />
-            )}
+          ) : (
+            <img src={emptyImage} alt="빈 이미지" />
+          )}
         </div>
         <div className="book-side-text">
-            <h1>{book.title}</h1>
-            <p className="gray">저자: {book.author}</p>
-            <p className="gray">등록일: {formatDate(book.createdAt)}</p>
-            <p className="gray">수정일: {formatDate(book.updatedAt)}</p>
-            <p className="black">내용</p>
-            <p className="black">{book.content}</p>
+          <h1>{book.title}</h1>
+          <p className="gray">저자: {book.author}</p>
+          <div className="card-tags">
+            <span style={{color: '#7a7a6e', fontSize: '16px'}}>장르: </span>
+            {book.tags?.map((tag, index) => (
+              <span key={index} className="card-tag">#{tag}</span>
+            ))}
+        </div>
+          <p className="gray">등록일: {formatDate(book.createdAt)}</p>
+          <p className="gray">수정일: {formatDate(book.updatedAt)}</p>
+          <p className="black">내용</p>
+          <p className="black">{book.content}</p>
         </div>
       </div>
 
       <div className="ai-image-section">
         <h3>AI 표지 생성</h3>
-        
         <div className="ai-input-row">
           <div className="ai-input-group">
             <label className="ai-label">생성 모델</label>
-            <input
-              type="text"
-              value="gpt-image-2"
-              disabled
-              className="api-input"
-            />
+            <input type="text" value="gpt-image-2" disabled className="api-input" />
           </div>
-
           <div className="ai-input-group">
             <label className="ai-label">사이즈</label>
-            <input
-              type="text"
-              value="1024x1536"
-              disabled
-              className="api-input"
-            />
+            <input type="text" value="1024x1536" disabled className="api-input" />
           </div>
         </div>
-
         <div>
           <label className="ai-label">퀄리티</label>
           <select
@@ -162,7 +126,6 @@ function BookInfoScreen({
             <option value="high">High</option>
           </select>
         </div>
-
         <button
           onClick={handleMakeImgClick}
           disabled={isGenerating}

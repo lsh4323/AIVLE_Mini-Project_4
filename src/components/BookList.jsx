@@ -3,7 +3,6 @@ import { useState } from "react";
 import Pagination from "./Pagination";
 
 function BookList({ books }) {
-  // 페이지 관련 상태 관리
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
@@ -33,6 +32,7 @@ function BookList({ books }) {
             coverImageUrl={book.coverImageUrl}
             createdAt={book.createdAt}
             updatedAt={book.updatedAt}
+            tags={book.tags}
           />
         ))}
       </ul>
