@@ -9,6 +9,9 @@ import BookForm from "./components/BookForm";
 // BookDetail.jsx 불러와야 함.
 import BookDetail from "./components/BookDetail";
 
+// OpenAI API 키 환경변수에서 불러오기
+const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+
 function App() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -128,15 +131,17 @@ function App() {
     );
 
   // AI 이미지 생성 함수
-  const handleGenerateImage = async (selectedBook, userApiKey, selectedQuality) => {
+  // userApiKey는 .env에서 불러온 apiKey로 변경
+  const handleGenerateImage = async (selectedBook, selectedQuality) => {
     // API 키가 입력되지 않은 경우
-    console.log('book:', selectedBook);
-    console.log(`api: ${userApiKey}`);
-    console.log(`quality: ${selectedQuality}`);
-    if (!userApiKey) {
-      alert("API 키를 입력해주세요");
+    // console.log('book:', selectedBook);
+    // console.log(`quality: ${selectedQuality}`);
+
+    if (!apiKey) {
+      alert("API 키가 설정되지 않았습니다.");
       return;
     }
+
     console.log('함수 호출');
     try {
       // OpenAI Image API 주소
@@ -167,7 +172,7 @@ function App() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${userApiKey}`,
+          Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
           model: "gpt-image-2",
