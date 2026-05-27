@@ -80,7 +80,7 @@ function BookAddScreen({ onAddBook }) {
             onChange={(e) => setContent(e.target.value)}
           />
           <p className="char-count">
-              {content.length} / 400자
+              {Math.min(content.length, 400)} / 400자
           </p> 
         </div>
 

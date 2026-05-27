@@ -70,14 +70,19 @@ function BookEditScreen({
                 </div>
             </div>
             <div className="book-edit-content">
-                <p>
-                    내용
-                </p>
-                <textarea
+                <p>내용</p>
+
+                <div className="book-edit-textarea-box">
+                    <textarea
                     value={changeContent}
                     maxLength={400}
                     onChange={(e) => setChangeContent(e.target.value)}
-                />
+                    />
+
+                    <p className="content-count">
+                    {Math.min(changeContent.length, 400)} / 400자
+                    </p>
+                </div>
             </div>
             
             <div className='buttons'>
