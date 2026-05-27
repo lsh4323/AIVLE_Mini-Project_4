@@ -53,7 +53,7 @@ function App() {
   const handleAddBook = async (newBook) => { 
     try {
       let generatedTags = [];
-      
+      // 환경변수에서 API 키 불러오기
       const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
 
       if (apiKey) {
