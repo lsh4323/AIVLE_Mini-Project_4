@@ -52,35 +52,42 @@ AI 책 표지 자동 생성 기반 도서 관리 시스템
 - **중복 방지 런타임 비활성화 (REQ-017):** 비동기 API 요청이 들어간 순간 버튼 텍스트가 즉시 `'생성 중...'`으로 스위칭되며 완료 전까지 모든 클릭 제어권을 잠금(`disabled`) 처리하여 다중 호출로 인한 서버 낭비 방지
 - **실시간 인코딩 반영 (REQ-018):** 성공적으로 생성된 이미지 데이터는 즉각 바이너리 base64 형태로 전달되어 메인 목록 대시보드와 상세 뷰 스크린 영역 전체에 걸쳐 지연 없이 실시간 실사 화면으로 리렌더링 및 동기화
 
-### 요구사항 정의서
+## 요구사항 정의서
+
 
 ---
 
 ## 디렉토리 구조
 ```
 AIVLE_Mini-Project_4/
-├── node_modules/
-├── db.json
+├── node_modules/          
+├── mock.json  
 └── src/
-    ├── components/
-    │   ├── BookDetail.jsx       # 도서 상세 내역 마크업 및 스타일
-    │   ├── BookForm.jsx         # 도서 추가/수정용 순수 입력 폼 UI
-    │   ├── BookItem.jsx         # 목록에서 쓰일 개별 도서 카드 UI
-    │   └── BookList.jsx         # BookItem들을 모아서 정렬하는 리스트 UI
-    ├── screens/
-    │   ├── BookAddScreen.jsx    # 도서 등록 페이지
-    │   ├── BookInfoScreen.jsx   # 도서 상세 조회 페이지
-    │   └── HomeScreen.jsx       # 메인 대시보드 / 목록 페이지
-    ├── App.css
-    ├── App.jsx                  # 최상위 데이터 통신 컨트롤러
-    ├── AppMockTest.jsx          # 오프라인 자동 검증용 테스트 라우터
-    └── main.jsx                 # 리액트 앱 진입점 (BrowserRouter 포함)
-├── .gitignore
-├── index.html
-├── json-server.json
-├── package.json
-├── package-lock.json
-└── vite.config.js
+    ├── components/                  # [UI 컴포넌트] 재사용 가능한 레고 블록 단위
+    │   ├── BookToListButton.jsx     # 목록으로 돌아가는 버튼 컴포넌트
+    │   ├── BookDetail.jsx           # 도서 상세 내역 마크업 및 스타일
+    │   ├── BookForm.jsx             # 도서 추가/수정용 순수 입력 폼 UI
+    │   ├── BookItem.jsx             # 목록에서 쓰일 개별 도서 카드 UI
+    │   ├── BookList.jsx             # 헤더 UI
+    │   ├── Header.jsx             # 목록에서 쓰일 개별 도서 카드 UI
+    │   └── Pagination.jsx           # 페이지네이션 컴포넌트
+    │
+    ├── screens/                     # [스크린] 독립적인 하나의 완성된 페이지 단위
+    │   ├── BookAddScreen.jsx        # 도서 등록 페이지
+    │   ├── BookEditScreen.jsx       # 도서 수정 기능
+    │   ├── BookInfoScreen.jsx       # 도서 상세 조회 페이지
+    │   └── HomeScreen.jsx           # 메인 대시보드/목록 페이지
+    │
+    ├── App.css                      # 전역 스타일시트
+    ├── App.jsx                      # 실전용 최상위 데이터 통신 컨트롤러
+    ├── AppMockTest.jsx              # [Mock]오프라인 자동 검증용 테스트 라우터
+    └── main.jsx                     # 리액트 앱 진입점 및 스위치 (BrowserRouter 포함)
+├── .gitignore                       # Git 추적 제외 설정 파일
+├── .env                             # api key 등 환경 변수 파일
+├── index.html                       # SPA 메인 HTML 뼈대 파일
+├── package.json                     # 의존성 라이브러리 및 스크립트 설계도
+├── package-lock.json                # 의존성 잠금 파일 (버전 고정)
+└── vite.config.js                   # Vite 빌드 및 개발 서버 설정 파일
 ```
 
 ## DB 구조
@@ -93,6 +100,7 @@ AIVLE_Mini-Project_4/
       "author": "저자명 (String)",
       "content": "도서 본문 내용 (String)",
       "coverImageUrl": "AI로 생성된 이미지의 Data URL (String)",
+      "tags":["tag1", "tag2", "tag3"],
       "createdAt": "생성일자 (String / YYYY-MM-DD HH:mm)",
       "updatedAt": "수정일자 (String / YYYY-MM-DD HH:mm)"
     }
