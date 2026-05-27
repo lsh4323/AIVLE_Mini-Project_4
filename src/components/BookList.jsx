@@ -1,25 +1,49 @@
 import BookItem from "./BookItem";
+import { useState } from "react";
+import Pagination from "./Pagination";
 
 function BookList({ books }) {
+  // 페이지 관련 상태 관리
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
   const sortedBooks = [...books].sort((a, b) => {
     return new Date(b.createdAt) - new Date(a.createdAt);
   });
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = sortedBooks.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
-    <ul className="book-list">
-      {sortedBooks.map((book) => (
-        <BookItem
-          key={book.id}
-          id={book.id}
-          title={book.title}
-          author={book.author}
-          content={book.content}
-          coverImageUrl={book.coverImageUrl}
-          createdAt={book.createdAt}
-          updatedAt={book.updatedAt}
-        />
-      ))}
-    </ul>
+    <>
+      <ul className="book-list">
+        {currentItems.map((book) => (
+          <BookItem
+            key={book.id}
+            id={book.id}
+            title={book.title}
+            author={book.author}
+            content={book.content}
+            coverImageUrl={book.coverImageUrl}
+            createdAt={book.createdAt}
+            updatedAt={book.updatedAt}
+          />
+        ))}
+      </ul>
+
+      <Pagination
+        currentPage={currentPage}
+        totalItems={sortedBooks.length}
+        itemsPerPage={itemsPerPage}
+        onPageChange={handlePageChange}
+      />
+    </>
   );
 }
 
