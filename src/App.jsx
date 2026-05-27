@@ -46,12 +46,78 @@ function App() {
     loadBooks();
   }, []);
 
-  const handleAddBook = async (newBook) => {
+// 책 추가와 동시에 태그 분류 함수
+  const handleAddBook = async (newBook) => { 
     try {
+      let generatedTags = [];
+      
+      const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+
+      if (apiKey) {
+        console.log('AI 장르 자동 분석 시작');
+        
+        const OPENAI_CHAT_API_URL = "https://api.openai.com/v1/chat/completions";
+        const TAG_CATEGORIES = `
+        - 소설 : 소설일반, 장편소설, 단편소설, 추리/미스터리, 판타지, SF, 로맨스, 역사소설, 청소년소설, 고전소설
+        - 시/에세이 : 시, 에세이, 명상/치유
+        - 인문/사회 : 인문학일반, 심리학, 정치/사회, 법학
+        - 취미/실용/스포츠 : 요리, 취미/공예, 건강/운동, 여행, 스포츠
+        - 경제/경영 : 경영일반, 경제일반, 마케팅/세일즈, 재테크/투자, 리더십, CEO/비즈니스
+        - 자기계발 : 성공처세, 자기관리, 대화법
+        - 역사/문화 : 역사, 문화
+        - 종교 : 종교일반, 기독교, 불교, 천주교, 기타종교
+        - 예술/대중문화 : 예술일반, 미술, 음악, 영화, 대중문화, 사진, 디자인
+        - 기술/공학/과학 : IT/컴퓨터, 과학, 기술/공학
+        - 어린이/유아 : 유아, 그림책, 아동문학, 학습/교양
+        `;
+
+        const prompt = `
+        다음 책의 제목과 내용을 분석해서, 아래 제공된 카테고리 목록 중에서 가장 잘 어울리는 태그를 최대 3개만 골라주세요.
+        대분류(예: '소설', '경제/경영') 태그 한개는 무조건 선택하고, 그 이후 소분류 태그를 선택해주세요. 
+        태그는 반드시 제공된 목록에서만 골라야 하며, 책의 장르와 주제를 가장 잘 나타내는 태그를 선택해주세요. 
+        응답은 반드시 JSON 배열 형태로만 작성해주세요. 예시: ["소설", "판타지", "청소년소설"]
+
+        [사용 가능한 카테고리 및 태그 목록]
+        ${TAG_CATEGORIES}
+
+        [책 정보]
+        -제목: "${newBook.title}"
+        -내용: "${newBook.content}"
+        `;
+        
+        const tagRes = await fetch(OPENAI_CHAT_API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify({
+            model: "gpt-4.1-mini",
+            messages: [{ role: "user", content: prompt }],
+            temperature: 0.1,
+          }) 
+        });
+
+        if (tagRes.ok) {
+          const tagData = await tagRes.json();
+          const aiMessage = tagData.choices[0].message.content;
+          generatedTags = JSON.parse(aiMessage); 
+        } else {
+          console.warn("태그 분석 실패, 태그 없이 저장을 진행합니다.");
+        }
+      } else {
+        console.warn(".env 파일에 API 키가 없어 태그 없이 저장합니다.");
+      }
+
+      const finalBookData = {
+        ...newBook,
+        tags: generatedTags,
+      };
+
       const res = await fetch("http://localhost:3000/books", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newBook),
+        body: JSON.stringify(finalBookData),
       });
 
       // error handling
@@ -61,35 +127,12 @@ function App() {
 
       const savedBook = await res.json();
 
-      // 리액트 상태 업데이트 (화면에 실시간 추가)
       setBooks([savedBook, ...books]);
       alert("등록 완료!");
     } catch (err) {
-      handleFetchError(err, err.message);
+      handleFetchError(err, err.message); 
     }
   };
-
-  const handleUpdateBook = async (updatedBook) => {
-  try {
-    const res = await fetch(`http://localhost:3000/books/${updatedBook.id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updatedBook),
-    });
-
-    // error handling
-    if (res.status === 404) throw new Error("수정할 책을 찾을 수 없습니다.");
-    if (res.status === 500) throw new Error("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-    if (!res.ok) throw new Error("수정 실패");
-
-    const saved = await res.json();
-
-    // 서버 응답값으로 상태 업데이트
-    setBooks(books.map((b) => (b.id == saved.id ? saved : b)));
-  } catch (err) {
-    handleFetchError(err, err.message);
-  }
-};
 
   // 책 삭제 함수
   const handleDeleteBook = async (id) => {
