@@ -46,6 +46,7 @@ function BookAddScreen({ onAddBook }) {
             type="text"
             placeholder="제목을 입력하세요"
             value={title}
+            maxLength={30}
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
@@ -60,6 +61,7 @@ function BookAddScreen({ onAddBook }) {
             type="text"
             placeholder="저자를 입력하세요"
             value={author}
+            maxLength={20}
             onChange={(e) => setAuthor(e.target.value)}
           />
         </div>
@@ -74,8 +76,12 @@ function BookAddScreen({ onAddBook }) {
             placeholder="책 내용을 입력하세요"
             rows="10"
             value={content}
+            maxLength={400}
             onChange={(e) => setContent(e.target.value)}
           />
+          <p className="char-count">
+              {content.length} / 400자
+          </p> 
         </div>
 
         {/* 하단 버튼들 */}

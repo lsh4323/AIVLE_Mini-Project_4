@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import BackToListButton from '../components/BackToListButton';
+import emptyImage from '../images/empty-image.png';
 
 function BookEditScreen({
   books,
@@ -9,7 +10,7 @@ function BookEditScreen({
     const navigate = useNavigate();
     const { id } = useParams();
 
-    const book = books.find(book => book.id == Number(id));
+    const book = books.find(book => book.id == id);
 
     const [isEditing, setIsEditing] = useState(false);
     const [changeContent, setChangeContent] = useState(book?.content ?? '');
@@ -57,9 +58,10 @@ function BookEditScreen({
                     {book.coverImageUrl?.trim() ? (
                     <img src={book.coverImageUrl} alt={book.title} />
                     ) : (
-                    <div className="empty-cover-image">
-                        빈 이미지
-                    </div>
+                    <img
+                    src={emptyImage}
+                    alt="빈 이미지"
+                />
                     )}
                 </div>
                 <div className="book-edit-text">
@@ -73,6 +75,7 @@ function BookEditScreen({
                 </p>
                 <textarea
                     value={changeContent}
+                    maxLength={400}
                     onChange={(e) => setChangeContent(e.target.value)}
                 />
             </div>
