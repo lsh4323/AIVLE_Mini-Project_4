@@ -9,7 +9,8 @@ function BookItem({
   content,
   coverImageUrl,
   createdAt,
-  updatedAt
+  updatedAt,
+  tags
 }) {
     const navigate = useNavigate();
     const formatDate = (dateString) => {
@@ -33,6 +34,11 @@ function BookItem({
             <div className="card-info">
                 <h3 className="card-title">{title}</h3>
                 <p className="card-content">{content}</p>
+                <div className="card-tags">
+                    {tags?.map((tag, index) => (
+                        <span key={index} className="card-tag">#{tag}</span>
+                    ))}
+                </div>
             </div>
         </li>
     );
