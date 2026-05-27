@@ -39,7 +39,7 @@ function App() {
         const data = await res.json();
         setBooks(data);
       } catch (err) {
-        handleFetchError(err, "데이터를 불러오지 못했습니다.");
+        handleFetchError(err, err.message);
       }
       setLoading(false);
     }
@@ -54,6 +54,9 @@ function App() {
         body: JSON.stringify(newBook),
       });
 
+      // error handling
+      if (res.status === 400) throw new Error("잘못된 요청입니다. 입력값을 확인해주세요.");
+      if (res.status === 500) throw new Error("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
       if (!res.ok) throw new Error("등록 실패");
 
       const savedBook = await res.json();
@@ -62,15 +65,10 @@ function App() {
       setBooks([savedBook, ...books]);
       alert("등록 완료!");
     } catch (err) {
-      handleFetchError(err, "등록 중 에러가 발생했습니다.");
+      handleFetchError(err, err.message);
     }
   };
 
-  // const handleUpdateBook = (updatedBook) => {
-  //   // 5/21 수업 참고하여 map이용
-  //   // 수정된 id와 일치하는 객체만 교체함.
-  //   setBooks(books.map((b) => (b.id == updatedBook.id ? updatedBook : b)));
-  // };
   const handleUpdateBook = async (updatedBook) => {
   try {
     const res = await fetch(`http://localhost:3000/books/${updatedBook.id}`, {
@@ -78,18 +76,20 @@ function App() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updatedBook),
     });
-    if (!res.ok) throw new Error('수정 실패');
+
+    // error handling
+    if (res.status === 404) throw new Error("수정할 책을 찾을 수 없습니다.");
+    if (res.status === 500) throw new Error("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+    if (!res.ok) throw new Error("수정 실패");
+
     const saved = await res.json();
 
     // 서버 응답값으로 상태 업데이트
     setBooks(books.map((b) => (b.id == saved.id ? saved : b)));
   } catch (err) {
-    handleFetchError(err, '수정 중 오류가 발생했습니다.');
+    handleFetchError(err, err.message);
   }
 };
-
-  // 클릭한 id와 같은 글 찾음
-  // const currentBook = books.find((b) => b.id === selectedBookId);
 
   // 책 삭제 함수
   const handleDeleteBook = async (id) => {
@@ -101,15 +101,15 @@ function App() {
         method: "DELETE",
       });
 
-      if (!res.ok) {
-        throw new Error("삭제 실패");
-      }
+      if (res.status === 404) throw new Error("삭제할 책을 찾을 수 없습니다.");
+      if (res.status === 500) throw new Error("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      if (!res.ok) throw new Error("삭제 실패");
 
       // 업데이트
       setBooks((prevBooks) => prevBooks.filter((book) => book.id !== id));
       alert("삭제 성공~~~");
     } catch (err) {
-      handleFetchError(err, "삭제 실패ㅠㅠ");
+      handleFetchError(err, err.message);
     }
   };
 
@@ -213,7 +213,10 @@ function App() {
           }),
         },
       );
-      // json-server 업데이트 성공 여부 확인
+
+      // error handling
+      if (updateRes.status === 404) throw new Error("업데이트할 책을 찾을 수 없습니다.");
+      if (updateRes.status === 500) throw new Error("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
       if (!updateRes.ok) throw new Error("책 정보 업데이트 실패");
 
       // React 상태 업데이트
