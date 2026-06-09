@@ -90,7 +90,8 @@ function BookInfoScreen({
           <p className="gray">저자: {book.author}</p>
           <div className="card-tags">
             <span style={{color: '#7a7a6e', fontSize: '16px'}}>장르: </span>
-            {book.tags?.map((tag, index) => (
+            {book.genre && <span className="card-tag">#{book.genre}</span>}
+            {book.subTag?.map((tag, index) => (
               <span key={index} className="card-tag">#{tag}</span>
             ))}
         </div>
