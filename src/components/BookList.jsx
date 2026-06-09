@@ -32,7 +32,7 @@ function BookList({ books }) {
             coverImageUrl={book.coverImageUrl}
             createdAt={book.createdAt}
             updatedAt={book.updatedAt}
-            tags={book.tags}
+            tags={book.genre ? [book.genre, ...(book.subTag ?? [])] : (book.tags ?? [])}
           />
         ))}
       </ul>
