@@ -32,7 +32,7 @@ function BookList({ books }) {
             coverImageUrl={book.coverImageUrl}
             createdAt={book.createdAt}
             updatedAt={book.updatedAt}
-            tags={book.genre ? [book.genre, ...(book.subTag ?? [])] : (book.tags ?? [])}
+            tags={book.genres ? [...new Set(book.genres.flatMap(g => [g.genreName, g.tagName]))] : []}
           />
         ))}
       </ul>

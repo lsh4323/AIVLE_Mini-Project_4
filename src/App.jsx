@@ -28,7 +28,7 @@ function App() {
   useEffect(() => {
     async function loadBooks() {
       try {
-        const res = await fetch("http://localhost:3000/books");
+        const res = await fetch("http://localhost:8080/books");
         if (!res.ok) throw new Error("서버 응답 오류");
         const data = await res.json();
         setBooks(data);
@@ -111,13 +111,17 @@ function App() {
         console.warn(".env 파일에 API 키가 없어 태그 없이 저장합니다.");
       }
 
+      const genres = subTag.map(tag => ({
+        genreName: genre,
+        tagName: tag
+      }));
+
       const finalBookData = {
         ...newBook,
-        genre,
-        subTag,
+        genres,
       };
 
-      const res = await fetch("http://localhost:3000/books", {
+      const res = await fetch("http://localhost:8080/books", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(finalBookData),
@@ -137,7 +141,7 @@ function App() {
 
   const handleUpdateBook = async (updatedBook) => {
     try {
-      const res = await fetch(`http://localhost:3000/books/${updatedBook.id}`, {
+      const res = await fetch(`http://localhost:8080/books/${updatedBook.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedBook),
@@ -158,7 +162,7 @@ function App() {
     if (!window.confirm("정말 삭제하시겠습니까?")) return;
 
     try {
-      const res = await fetch(`http://localhost:3000/books/${id}`, {
+      const res = await fetch(`http://localhost:8080/books/${id}`, {
         method: "DELETE",
       });
 
@@ -213,7 +217,7 @@ function App() {
           n: 1,
           size: "1024x1536",
           quality: selectedQuality,
-          output_format: "png",
+   
         }),
       });
 
@@ -233,15 +237,14 @@ function App() {
 
       const imageUrl = `data:image/png;base64,${b64Image}`;
 
-      // 5차: /books/${id}/cover 로 변경 예정
+  
       const updateRes = await fetch(
-        `http://localhost:3000/books/${selectedBook.id}`,
+        `http://localhost:8080/books/${selectedBook.id}/cover`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             coverImageUrl: imageUrl,
-            updatedAt: new Date().toISOString(),
           }),
         },
       );
