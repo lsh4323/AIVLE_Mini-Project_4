@@ -30,8 +30,8 @@ function App() {
       try {
         const res = await fetch("http://localhost:8080/books");
         if (!res.ok) throw new Error("서버 응답 오류");
-        const data = await res.json();
-        setBooks(data);
+        const result = await res.json();
+        setBooks(result.data); // ✅ .data 추가
       } catch (err) {
         handleFetchError(err, err.message);
       }
@@ -96,7 +96,6 @@ function App() {
           const aiMessage = tagData.choices[0].message.content;
           const parsed = JSON.parse(aiMessage);
 
-          // AI가 배열로 응답한 경우도 처리
           if (Array.isArray(parsed)) {
             genre = parsed[0] ?? "";
             subTag = parsed.slice(1);
@@ -112,8 +111,8 @@ function App() {
       }
 
       const genres = genre ? subTag.map(tag => ({
-        mainTag: genre,   // genreName → mainTag
-        subTag: tag       // tagName → subTag
+        mainTag: genre,
+        subTag: tag
       })) : [];
 
       const finalBookData = {
@@ -131,8 +130,8 @@ function App() {
       if (res.status === 500) throw new Error("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
       if (!res.ok) throw new Error("등록 실패");
 
-      const savedBook = await res.json();
-      setBooks([savedBook, ...books]);
+      const result = await res.json();
+      setBooks([result.data, ...books]); // ✅ .data 추가
       alert("등록 완료!");
     } catch (err) {
       handleFetchError(err, err.message);
@@ -151,8 +150,8 @@ function App() {
       if (res.status === 500) throw new Error("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
       if (!res.ok) throw new Error("수정 실패");
 
-      const saved = await res.json();
-      setBooks(books.map((b) => (b.id == saved.id ? saved : b)));
+      const result = await res.json();
+      setBooks(books.map((b) => (b.id == result.data.id ? result.data : b))); // ✅ .data 추가
     } catch (err) {
       handleFetchError(err, err.message);
     }
@@ -217,7 +216,6 @@ function App() {
           n: 1,
           size: "1024x1536",
           quality: selectedQuality,
-   
         }),
       });
 
@@ -237,7 +235,6 @@ function App() {
 
       const imageUrl = `data:image/png;base64,${b64Image}`;
 
-  
       const updateRes = await fetch(
         `http://localhost:8080/books/${selectedBook.id}/cover`,
         {
@@ -253,13 +250,13 @@ function App() {
       if (updateRes.status === 500) throw new Error("서버 오류가 발생했습니다.");
       if (!updateRes.ok) throw new Error("책 정보 업데이트 실패");
 
-      const updatedBook = await updateRes.json();
+      const updateResult = await updateRes.json();
       setBooks((prevBooks) =>
         prevBooks.map((book) =>
-          book.id === selectedBook.id ? updatedBook : book,
+          book.id === selectedBook.id ? updateResult.data : book, // ✅ .data 추가
         ),
       );
-      setCurrentBook(updatedBook);
+      setCurrentBook(updateResult.data); // ✅ .data 추가
       alert("책 이미지가 성공적으로 생성되고 업데이트되었습니다!");
     } catch (err) {
       handleFetchError(err, "이미지 생성 또는 업데이트에 실패했습니다.");
