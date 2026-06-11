@@ -26,7 +26,7 @@ function HomeScreen({ books }) {
 
   const handleGenreChange = (value) => {
     setSelectedGenre(value);
-    setSelectedSubTag("전체"); // 대분류 바꾸면 소분류 초기화
+    setSelectedSubTag("전체");
   };
 
   const handleSearch = () => {
@@ -42,11 +42,11 @@ function HomeScreen({ books }) {
   const filteredBooks = books.filter((book) => {
     const matchesGenre =
       selectedGenre === "전체 장르" ||
-      book.genre === selectedGenre;
+      book.genres?.some(g => g.mainTag === selectedGenre);
 
     const matchesSubTag =
       selectedSubTag === "전체" ||
-      (book.subTag && book.subTag.includes(selectedSubTag));
+      book.genres?.some(g => g.subTag === selectedSubTag);
 
     const matchesSearch =
       book.title.toLowerCase().includes(appliedSearch.toLowerCase()) ||
@@ -54,7 +54,7 @@ function HomeScreen({ books }) {
 
     return matchesGenre && matchesSubTag && matchesSearch;
   });
-  
+
   return (
     <>
       <div className="home-header">

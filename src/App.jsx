@@ -111,10 +111,10 @@ function App() {
         console.warn(".env 파일에 API 키가 없어 태그 없이 저장합니다.");
       }
 
-      const genres = subTag.map(tag => ({
-        genreName: genre,
-        tagName: tag
-      }));
+      const genres = genre ? subTag.map(tag => ({
+        mainTag: genre,   // genreName → mainTag
+        subTag: tag       // tagName → subTag
+      })) : [];
 
       const finalBookData = {
         ...newBook,

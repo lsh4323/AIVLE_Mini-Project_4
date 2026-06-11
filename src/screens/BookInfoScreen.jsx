@@ -90,7 +90,7 @@ function BookInfoScreen({
           <p className="gray">저자: {book.author}</p>
           <div className="card-tags">
             <span style={{color: '#7a7a6e', fontSize: '16px'}}>장르: </span>
-            {book.genres?.flatMap(g => [g.genreName, g.tagName])
+            {book.genres?.flatMap(g => [g.mainTag, g.subTag])
               .filter((v, i, arr) => arr.indexOf(v) === i)
               .map((tag, index) => (
                 <span key={index} className="card-tag">#{tag}</span>
