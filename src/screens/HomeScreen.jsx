@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import BookList from "../components/BookList";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // 대분류 - 소분류 데이터
 const GENRE_DATA = {
@@ -20,17 +20,62 @@ const GENRE_DATA = {
 function HomeScreen({ books }) {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
-  const [appliedSearch, setAppliedSearch] = useState("");
   const [selectedGenre, setSelectedGenre] = useState("전체 장르");
   const [selectedSubTag, setSelectedSubTag] = useState("전체");
+  const [displayedBooks, setDisplayedBooks] = useState(books);
+
+  // 장르/서브태그 변경 시 BE 카테고리 API 호출
+  useEffect(() => {
+    const fetchByGenre = async () => {
+      if (selectedGenre === "전체 장르") {
+        setDisplayedBooks(books);
+        return;
+      }
+
+      try {
+        let url = `http://localhost:8080/books/search/category?mainTag=${encodeURIComponent(selectedGenre)}`;
+        if (selectedSubTag !== "전체") {
+          url += `&subTag=${encodeURIComponent(selectedSubTag)}`;
+        }
+        const res = await fetch(url);
+        if (!res.ok) throw new Error("필터링 실패");
+        const result = await res.json();
+        setDisplayedBooks(result.data);
+      } catch (err) {
+        console.error(err);
+        setDisplayedBooks([]);
+      }
+    };
+
+    fetchByGenre();
+  }, [selectedGenre, selectedSubTag, books]);
 
   const handleGenreChange = (value) => {
     setSelectedGenre(value);
     setSelectedSubTag("전체");
+    setSearchQuery(""); // 장르 바꾸면 검색어 초기화
   };
 
-  const handleSearch = () => {
-    setAppliedSearch(searchQuery);
+  // 검색 버튼 클릭 / Enter → BE /books/search/detail API 호출
+  const handleSearch = async () => {
+    if (!searchQuery.trim()) {
+      // 검색어 비어있으면 전체 or 현재 장르 필터 결과로 복귀
+      if (selectedGenre === "전체 장르") {
+        setDisplayedBooks(books);
+      }
+      return;
+    }
+
+    try {
+      const url = `http://localhost:8080/books/search/detail?title=${encodeURIComponent(searchQuery)}&author=${encodeURIComponent(searchQuery)}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("검색 실패");
+      const result = await res.json();
+      setDisplayedBooks(result.data);
+    } catch (err) {
+      console.error(err);
+      setDisplayedBooks([]);
+    }
   };
 
   const handleKeyDown = (e) => {
@@ -39,21 +84,33 @@ function HomeScreen({ books }) {
     }
   };
 
-  const filteredBooks = books.filter((book) => {
-    const matchesGenre =
-      selectedGenre === "전체 장르" ||
-      book.genres?.some(g => g.mainTag === selectedGenre);
-
-    const matchesSubTag =
-      selectedSubTag === "전체" ||
-      book.genres?.some(g => g.subTag === selectedSubTag);
-
-    const matchesSearch =
-      book.title.toLowerCase().includes(appliedSearch.toLowerCase()) ||
-      book.author.toLowerCase().includes(appliedSearch.toLowerCase());
-
-    return matchesGenre && matchesSubTag && matchesSearch;
-  });
+  // 검색어 지우면 자동으로 원래 목록 복귀
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+    if (!value.trim()) {
+      if (selectedGenre === "전체 장르") {
+        setDisplayedBooks(books);
+      } else {
+        // 장르 필터 상태 유지
+        const fetchByGenre = async () => {
+          try {
+            let url = `http://localhost:8080/books/search/category?mainTag=${encodeURIComponent(selectedGenre)}`;
+            if (selectedSubTag !== "전체") {
+              url += `&subTag=${encodeURIComponent(selectedSubTag)}`;
+            }
+            const res = await fetch(url);
+            if (!res.ok) return;
+            const result = await res.json();
+            setDisplayedBooks(result.data);
+          } catch (err) {
+            console.error(err);
+          }
+        };
+        fetchByGenre();
+      }
+    }
+  };
 
   return (
     <>
@@ -65,7 +122,7 @@ function HomeScreen({ books }) {
             type="text"
             placeholder="제목, 저자로 검색..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={handleSearchChange}
             onKeyDown={handleKeyDown}
           />
           <button className="search-button" onClick={handleSearch}>
@@ -108,7 +165,7 @@ function HomeScreen({ books }) {
         )}
       </div>
 
-      <BookList books={filteredBooks} />
+      <BookList books={displayedBooks} />
     </>
   );
 }

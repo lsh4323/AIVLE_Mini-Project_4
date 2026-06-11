@@ -272,7 +272,6 @@ function App() {
           path="/infobook/:id"
           element={
             <BookInfoScreen
-              books={books}
               onDeleteBook={handleDeleteBook}
               onUpdateBook={handleUpdateBook}
               onMakeImg={handleGenerateImage}
@@ -280,7 +279,7 @@ function App() {
           }
         />
         <Route path="/addbook" element={<BookAddScreen onAddBook={handleAddBook} />} />
-        <Route path="/editbook/:id" element={<BookEditScreen books={books} onUpdateBook={handleUpdateBook} />} />
+        <Route path="/editbook/:id" element={<BookEditScreen onUpdateBook={handleUpdateBook} />} />
       </Routes>
     </>
   );

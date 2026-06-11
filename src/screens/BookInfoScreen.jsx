@@ -1,10 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import BackToListButton from '../components/BackToListButton';
 import emptyImage from '../images/empty-image.png';
 
 function BookInfoScreen({
-  books,
   onDeleteBook,
   onUpdateBook,
   onMakeImg
@@ -12,15 +11,30 @@ function BookInfoScreen({
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const book = books.find(book => book.id == id);
-
-  const [isEditing, setIsEditing] = useState(false);
-  const [changeContent, setChangeContent] = useState(book?.content ?? '');
-  console.log('changeContent : ', changeContent);
-
-  {/* AI 이미지 생성 useState */}
+  const [book, setBook] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [selectedQuality, setSelectedQuality] = useState('medium');
   const [isGenerating, setIsGenerating] = useState(false);
+
+  // BE API로 단건 조회
+  useEffect(() => {
+    const fetchBook = async () => {
+      try {
+        const res = await fetch(`http://localhost:8080/books/${id}`);
+        if (!res.ok) throw new Error("책을 찾을 수 없습니다.");
+        const result = await res.json();
+        setBook(result.data);
+      } catch (err) {
+        console.error(err);
+        setBook(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBook();
+  }, [id]);
+
+  if (loading) return <p>불러오는 중...</p>;
 
   if (!book) {
     return (
@@ -31,16 +45,6 @@ function BookInfoScreen({
     );
   }
 
-  const handleSave = () => {
-    const newUpdatedAt = new Date().toISOString();
-    onUpdateBook({
-      ...book,
-      content: changeContent,
-      updatedAt: newUpdatedAt,
-    });
-    setIsEditing(false);
-  };
-
   const handleDelete = () => {
     onDeleteBook(book.id);
     navigate('/');
@@ -49,11 +53,12 @@ function BookInfoScreen({
   const handleMakeImgClick = async () => {
     setIsGenerating(true);
     try {
-      await onMakeImg(book, selectedQuality);
+      const updatedBook = await onMakeImg(book, selectedQuality);
+      if (updatedBook) setBook(updatedBook);
     } catch (err) {
       console.error(err);
     } finally {
-      setIsGenerating(false); 
+      setIsGenerating(false);
     }
   };
 
@@ -95,7 +100,7 @@ function BookInfoScreen({
               .map((tag, index) => (
                 <span key={index} className="card-tag">#{tag}</span>
               ))}
-        </div>
+          </div>
           <p className="gray">등록일: {formatDate(book.createdAt)}</p>
           <p className="gray">수정일: {formatDate(book.updatedAt)}</p>
           <p className="black">내용</p>
