@@ -4,15 +4,41 @@ import { useState, useEffect } from "react";
 
 // 대분류 - 소분류 데이터
 const GENRE_DATA = {
-  "소설": ["소설일반", "장편소설", "단편소설", "추리/미스터리", "판타지", "SF", "로맨스", "역사소설", "청소년소설", "고전소설"],
+  소설: [
+    "소설일반",
+    "장편소설",
+    "단편소설",
+    "추리/미스터리",
+    "판타지",
+    "SF",
+    "로맨스",
+    "역사소설",
+    "청소년소설",
+    "고전소설",
+  ],
   "시/에세이": ["시", "에세이", "명상/치유"],
   "인문/사회": ["인문학일반", "심리학", "정치/사회", "법학"],
   "취미/실용/스포츠": ["요리", "취미/공예", "건강/운동", "여행", "스포츠"],
-  "경제/경영": ["경영일반", "경제일반", "마케팅/세일즈", "재테크/투자", "리더십", "CEO/비즈니스"],
-  "자기계발": ["성공처세", "자기관리", "대화법"],
+  "경제/경영": [
+    "경영일반",
+    "경제일반",
+    "마케팅/세일즈",
+    "재테크/투자",
+    "리더십",
+    "CEO/비즈니스",
+  ],
+  자기계발: ["성공처세", "자기관리", "대화법"],
   "역사/문화": ["역사", "문화"],
-  "종교": ["종교일반", "기독교", "불교", "천주교", "기타종교"],
-  "예술/대중문화": ["예술일반", "미술", "음악", "영화", "대중문화", "사진", "디자인"],
+  종교: ["종교일반", "기독교", "불교", "천주교", "기타종교"],
+  "예술/대중문화": [
+    "예술일반",
+    "미술",
+    "음악",
+    "영화",
+    "대중문화",
+    "사진",
+    "디자인",
+  ],
   "기술/공학/과학": ["IT/컴퓨터", "과학", "기술/공학"],
   "어린이/유아": ["유아", "그림책", "아동문학", "학습/교양"],
 };
@@ -146,7 +172,9 @@ function HomeScreen({ books }) {
         >
           <option>전체 장르</option>
           {Object.keys(GENRE_DATA).map((genre) => (
-            <option key={genre} value={genre}>{genre}</option>
+            <option key={genre} value={genre}>
+              {genre}
+            </option>
           ))}
         </select>
 
@@ -159,13 +187,21 @@ function HomeScreen({ books }) {
           >
             <option value="전체">전체</option>
             {GENRE_DATA[selectedGenre].map((tag) => (
-              <option key={tag} value={tag}>{tag}</option>
+              <option key={tag} value={tag}>
+                {tag}
+              </option>
             ))}
           </select>
         )}
       </div>
 
-      <BookList books={displayedBooks} />
+      {displayedBooks.length === 0 ? (
+        <div className="no-results">
+          <p>검색 결과가 없습니다.</p>
+        </div>
+      ) : (
+        <BookList books={displayedBooks} />
+      )}
     </>
   );
 }
