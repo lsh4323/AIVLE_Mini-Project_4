@@ -1,9 +1,93 @@
+/* ===== 다크모드 CSS 변수 ===== */
+:root {
+  --bg-main: #fffcf6;
+  --bg-card: #f7f4ec;
+  --bg-card-hover: #ece8d8;
+  --bg-form: #f7f4ec;
+  --bg-white: #ffffff;
+  --bg-ai-section: #ffffff;
+  --bg-tag: #f0ede3;
+
+  --text-primary: #2c2c2c;
+  --text-secondary: #7a7a6e;
+  --text-brown: #5e432f;
+  --text-black: #000000;
+  --text-tag: #7a7a6e;
+
+  --border-color: #cccccc;
+  --border-tag: #d9d5c8;
+  --border-ai: #e0e0e0;
+  --border-input: #cccccc;
+  --border-pagination: #ddd;
+
+  --header-bg: #99ad7a;
+  --header-text: #ffffff;
+
+  --btn-primary: #546b41;
+  --btn-primary-hover: #3f5632;
+  --btn-search: #0059a7;
+  --btn-delete: red;
+
+  --pagination-active: #3f5632;
+  --pagination-bg: #ffffff;
+  --pagination-disabled: #f5f5f5;
+
+  --shadow-card: rgba(0, 0, 0, 0.07);
+  --shadow-card-hover: rgba(0, 0, 0, 0.12);
+  --shadow-img: rgba(0, 0, 0, 0.15);
+
+  --select-text: #5e432f;
+}
+
+[data-theme="dark"] {
+  --bg-main: #0d1117;
+  --bg-card: #161b22;
+  --bg-card-hover: #1f2937;
+  --bg-form: #161b22;
+  --bg-white: #161b22;
+  --bg-ai-section: #161b22;
+  --bg-tag: #1e2a3a;
+
+  --text-primary: #cdd9e5;
+  --text-secondary: #8b949e;
+  --text-brown: #79c0ff;
+  --text-black: #cdd9e5;
+  --text-tag: #8b949e;
+
+  --border-color: #30363d;
+  --border-tag: #30363d;
+  --border-ai: #30363d;
+  --border-input: #30363d;
+  --border-pagination: #30363d;
+
+  --header-bg: #161b22;
+  --header-text: #cdd9e5;
+
+  --btn-primary: #1f6feb;
+  --btn-primary-hover: #388bfd;
+  --btn-search: #1f6feb;
+  --btn-delete: #da3633;
+
+  --pagination-active: #1f6feb;
+  --pagination-bg: #161b22;
+  --pagination-disabled: #0d1117;
+
+  --shadow-card: rgba(0, 0, 0, 0.4);
+  --shadow-card-hover: rgba(0, 0, 0, 0.6);
+  --shadow-img: rgba(0, 0, 0, 0.5);
+
+  --select-text: #79c0ff;
+}
+
 /* ===== 전체 배경 ===== */
 body {
-  background-color: #fffcf6;
+  background-color: var(--bg-main);
   font-family: "Noto Sans KR", sans-serif;
   margin: 0;
   padding: 0;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 .page-container {
@@ -13,27 +97,50 @@ body {
 
 /* ===== 헤더 ===== */
 .header {
-  background-color: #99ad7a;
+  background-color: var(--header-bg);
   padding: 20px 30px;
   margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s ease;
 }
+
 .header-title {
-  color: #ffffff;
+  color: var(--header-text);
   font-size: 32px;
   font-weight: 700;
+}
+
+/* ===== 다크모드 토글 버튼 ===== */
+.dark-mode-toggle {
+  background: none;
+  border: 2px solid var(--header-text);
+  border-radius: 20px;
+  color: var(--header-text);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 16px;
+  transition: all 0.2s ease;
+  width: auto;
+}
+
+.dark-mode-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 /* ===== 홈 화면 ===== */
 .book-list-title {
   font-size: 26px;
   font-weight: 700;
-  color: #5e432f;
+  color: var(--text-brown);
   display: inline-block;
 }
 
 .add-book-button {
   padding: 14px 28px;
-  background-color: #546b41;
+  background-color: var(--btn-primary);
   color: white;
   border: none;
   border-radius: 12px;
@@ -53,30 +160,30 @@ body {
 
 .book-card {
   width: auto;
-  background-color: #f7f4ec;
+  background-color: var(--bg-card);
   border-radius: 16px;
   padding: 24px;
   display: flex;
   align-items: center;
   gap: 16px;
   cursor: pointer;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 2px 10px var(--shadow-card);
+  border: 1px solid var(--border-color); /* ← 이 줄 추가 */
   transition:
     background-color 0.2s ease,
     transform 0.2s ease,
     box-shadow 0.2s ease;
   min-height: 160px;
 }
-
 .card-info {
   min-width: 0;
   flex: 1;
 }
 
 .book-card:hover {
-  background-color: #ece8d8;
+  background-color: var(--bg-card-hover);
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 6px 20px var(--shadow-card-hover);
 }
 
 .card-image {
@@ -85,13 +192,13 @@ body {
   border-radius: 6px;
   object-fit: cover;
   flex-shrink: 0;
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 2px 4px 10px var(--shadow-img);
 }
 
 .card-title {
   font-size: 1.05rem;
   font-weight: 600;
-  color: #2c2c2c;
+  color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -99,7 +206,7 @@ body {
 
 .card-content {
   font-size: 0.875rem;
-  color: #7a7a6e;
+  color: var(--text-secondary);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -109,7 +216,7 @@ body {
 /* ===== 목록으로 돌아가기 ===== */
 a,
 div[style*="cursor: pointer"] {
-  color: #7e7e7e;
+  color: var(--text-secondary);
   font-size: 16px;
   margin: 16px 30px;
   display: inline-block;
@@ -119,11 +226,12 @@ div[style*="cursor: pointer"] {
 /* ===== 책 등록 제목 ===== */
 h2 {
   margin: 0 30px 20px 30px;
+  color: var(--text-primary);
 }
 
 /* ===== 책 추가 폼 ===== */
 form {
-  background-color: #f7f4ec;
+  background-color: var(--bg-form);
   border-radius: 12px;
   padding: 24px 30px;
   margin: 0 30px;
@@ -133,7 +241,7 @@ form {
 label {
   font-size: 15px;
   font-weight: 700;
-  color: #5e432f;
+  color: var(--text-brown);
   display: inline-block;
   width: 60px;
   margin-bottom: 12px;
@@ -142,22 +250,32 @@ label {
 input {
   width: calc(100% - 70px);
   padding: 10px 14px;
-  border: 1px solid #cccccc;
+  border: 1px solid var(--border-input);
   border-radius: 8px;
   font-size: 14px;
   margin-bottom: 12px;
-  background-color: #ffffff;
+  background-color: var(--bg-white);
+  color: var(--text-primary);
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
 }
 
 textarea {
   width: calc(100% - 70px);
   padding: 10px 14px;
-  border: 1px solid #cccccc;
+  border: 1px solid var(--border-input);
   border-radius: 8px;
   font-size: 14px;
   min-height: 200px;
   resize: vertical;
-  background-color: #ffffff;
+  background-color: var(--bg-white);
+  color: var(--text-primary);
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
 }
 
 form > div:last-child {
@@ -168,7 +286,7 @@ form > div:last-child {
 }
 
 button[type="submit"] {
-  background-color: #546b41;
+  background-color: var(--btn-primary);
   color: white;
   border: none;
   border-radius: 8px;
@@ -179,9 +297,9 @@ button[type="submit"] {
 }
 
 button[type="button"] {
-  background-color: white;
-  color: #546b41;
-  border: 1px solid #cccccc;
+  background-color: var(--bg-white);
+  color: var(--btn-primary);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 10px 24px;
   font-size: 14px;
@@ -190,9 +308,9 @@ button[type="button"] {
 }
 
 button[type="delete"] {
-  background-color: red;
+  background-color: var(--btn-delete);
   color: white;
-  border: 1px solid #cccccc;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 10px 24px;
   font-size: 14px;
@@ -229,17 +347,18 @@ button[type="delete"] {
 .book-side-text h1 {
   margin-top: 0;
   font-size: 35px;
+  color: var(--text-primary);
 }
 
 .book-side-text p.gray {
   font-size: 16px;
-  color: gray;
+  color: var(--text-secondary);
   margin-bottom: 4px;
 }
 
 .book-side-text p.black {
   font-size: 20px;
-  color: black;
+  color: var(--text-black);
   font-weight: 600;
   margin-top: 32px;
 }
@@ -260,6 +379,7 @@ button[type="delete"] {
   margin: 10px 0 0;
   font-size: 26px;
   font-weight: bold;
+  color: var(--text-primary);
 }
 
 .book-edit-textarea-box {
@@ -270,17 +390,19 @@ button[type="delete"] {
   width: 100%;
   min-height: 210px;
   padding: 16px 20px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-input);
   border-radius: 8px;
   font-size: 14px;
   resize: vertical;
   box-sizing: border-box;
+  background-color: var(--bg-white);
+  color: var(--text-primary);
 }
 
 .content-count {
   margin: 6px 0 0;
   font-size: 12px;
-  color: #666;
+  color: var(--text-secondary);
   text-align: right;
 }
 
@@ -308,10 +430,13 @@ button[type="delete"] {
 .ai-image-section {
   width: 400px;
   padding: 20px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--border-ai);
   border-radius: 10px;
-  background-color: #fff;
+  background-color: var(--bg-ai-section);
   box-sizing: border-box;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .ai-label {
@@ -320,16 +445,22 @@ button[type="delete"] {
   font-size: 12px;
   font-weight: bold;
   white-space: nowrap;
+  color: var(--text-primary);
 }
 
 .quality-select {
   width: 100%;
   height: 38px;
   padding: 0 10px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-input);
   border-radius: 6px;
   font-size: 14px;
   box-sizing: border-box;
+  background-color: var(--bg-white);
+  color: var(--text-primary);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 .api-input {
@@ -337,8 +468,13 @@ button[type="delete"] {
   height: 38px;
   padding: 0 10px;
   box-sizing: border-box;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-input);
   border-radius: 6px;
+  background-color: var(--bg-white);
+  color: var(--text-primary);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 .ai-input-row {
@@ -356,15 +492,16 @@ button[type="delete"] {
   margin-top: 12px;
   border: none;
   border-radius: 6px;
-  background-color: #4f6b3f;
+  background-color: var(--btn-primary);
   color: white;
   font-size: 15px;
   font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .generate-btn:hover {
-  background-color: #3f5632;
+  background-color: var(--btn-primary-hover);
 }
 
 .generate-btn:disabled {
@@ -393,8 +530,9 @@ button[type="delete"] {
 .pagination-button,
 .pagination-number-button {
   padding: 8px 12px;
-  border: 1px solid #ddd;
-  background-color: #fff;
+  border: 1px solid var(--border-pagination);
+  background-color: var(--pagination-bg);
+  color: var(--text-primary);
   cursor: pointer;
   border-radius: 4px;
   font-size: 14px;
@@ -402,27 +540,27 @@ button[type="delete"] {
 }
 
 .pagination-button:disabled {
-  background-color: #f5f5f5;
-  color: #ccc;
+  background-color: var(--pagination-disabled);
+  color: var(--text-secondary);
   cursor: not-allowed;
 }
 
 .pagination-button:not(:disabled):hover,
 .pagination-number-button:hover {
-  background-color: #f0f0f0;
+  background-color: var(--bg-card-hover);
 }
 
 .pagination-number-button.active {
-  background-color: #3f5632;
+  background-color: var(--pagination-active);
   color: white;
-  border-color: #3f5632;
+  border-color: var(--pagination-active);
   font-weight: bold;
 }
 
 .char-count {
   margin-top: 4px;
   font-size: 12px;
-  color: #666;
+  color: var(--text-secondary);
   text-align: right;
 }
 
@@ -435,12 +573,15 @@ button[type="delete"] {
 }
 
 .card-tag {
-  background-color: #f0ede3;
-  color: #7a7a6e;
+  background-color: var(--bg-tag);
+  color: var(--text-tag);
   font-size: 0.75rem;
   padding: 4px 10px;
   border-radius: 20px;
-  border: 1px solid #d9d5c8;
+  border: 1px solid var(--border-tag);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 /* ===== 홈 헤더 ===== */
@@ -461,17 +602,21 @@ button[type="delete"] {
 .search-input {
   flex: 1;
   padding: 14px 16px;
-  border: 1px solid #cccccc;
+  border: 1px solid var(--border-input);
   border-radius: 8px;
   font-size: 14px;
-  background-color: #ffffff;
+  background-color: var(--bg-white);
+  color: var(--text-primary);
   width: auto;
   margin-bottom: 0;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 .search-button {
   padding: 14px 20px;
-  background-color: #0059A7;
+  background-color: var(--btn-search);
   color: white;
   border: none;
   border-radius: 8px;
@@ -488,10 +633,23 @@ button[type="delete"] {
 
 .genre-select {
   padding: 8px 16px;
-  border: 1px solid #cccccc;
+  border: 1px solid var(--border-input);
   border-radius: 20px;
   font-size: 14px;
-  background-color: #ffffff;
+  background-color: var(--bg-white);
   cursor: pointer;
-  color: #5e432f;
+  color: var(--select-text);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.no-results {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  color: #666;
+  font-size: 16px;
+  font-weight: 500;
 }
