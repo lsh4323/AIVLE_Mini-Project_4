@@ -195,13 +195,25 @@ function HomeScreen({ books }) {
         )}
       </div>
 
-      {displayedBooks.length === 0 ? (
-        <div className="no-results">
-          <p>검색 결과가 없습니다.</p>
-        </div>
-      ) : (
-        <BookList books={displayedBooks} />
-      )}
+      {(() => {
+        if (!books || books.length === 0) {
+          return (
+            <div className="no-results">
+              <p>아직 등록된 도서가 없습니다.</p>
+            </div>
+          );
+        }
+
+        if (displayedBooks.length === 0) {
+          return (
+            <div className="no-results">
+              <p>검색 결과가 없습니다. </p>
+            </div>
+          );
+        }
+
+        return <BookList books={displayedBooks} />;
+      })()}
     </>
   );
 }
