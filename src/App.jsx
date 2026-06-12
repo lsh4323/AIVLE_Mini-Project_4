@@ -258,6 +258,7 @@ function App() {
       );
       setCurrentBook(updateResult.data); // ✅ .data 추가
       alert("책 이미지가 성공적으로 생성되고 업데이트되었습니다!");
+      return updateResult.data;
     } catch (err) {
       handleFetchError(err, "이미지 생성 또는 업데이트에 실패했습니다.");
     }
